@@ -1,11 +1,4 @@
-from flask import Flask
-app = Flask(__name__)
+from app import manager
 
-@app.route('/')
-@app.route('/<name>')
-def index(name=None):
-    if name:
-        return f'hello {name}'
-    else:
-        return "hello man"
-
+if __name__ == "__main__":
+    manager.run()

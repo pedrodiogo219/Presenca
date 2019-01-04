@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta>
+    {% block head %}
+    <title>Presença UberHub</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block body %}
+    <div class="container" id="logmain">
+      <form class="needs-validation" method="POST">
+        <h1>Presença</h1>
+        <hr>
+        <div class="form-row bootstrap-iso">
+          <div class="col-md-5 mb-2">
+            <label for="validationServer01">CPF</label>
+            <input type="text" class="form-control" id="validationServer01" placeholder="___.___.___-__" name="cpf" maxlength="14" OnKeyPress="formatar('###.###.###-##', this)" required>
+          </div>
+          <div class="col-md-7 mb-2">
+            <label for="validationServer01">Professor</label>
+            <input type="text" class="form-control" id="validationServer01" placeholder="Nome do Prof." name="prof." required>
+          </div>
+        </div>
+        <br>
+        <div class="form-row">
+          <div class="col-md mb">
+          </div>
+          <div class="col-md mb">
+            <button type="submit" id="enviar" class="btn">Enviar</button>
+          </div>
+          <div class="col-md mb">
+          </div>
+        </div>
+      </form>
+    </div>
+    {% endblock %}
+  </body>
+</html>

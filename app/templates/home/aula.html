@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block head %}
+    <title>Professor</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block body %}
+    <div class="container" id="logmain">
+      <h1>Área do Professor</h1>
+      <hr>
+      <form>
+        <div class="form-row">
+          <div class="col-md-5 mb-2">
+            <label for="validationServer01">Data</label>
+            <input class="form-control" id="datepicker" type="text" placeholder="dd/mm/aaaa" name="date" maxlength="10" OnKeyPress="formatar('##/##/####', this)" required>
+          </div>
+          <div class="col-md-7 mb-2">
+            <label for="validationServer01">Sala</label>
+            <input type="text" class="form-control" id="validationServer01" placeholder="Sala" name="prof." required>
+          </div>
+        </div>
+        <br>
+        <div class="form-row">
+          <div class="col-md mb">
+          </div>
+          <div class="col-md mb">
+            <button type="submit" id="enviar" class="btn">Abrir Aula</button>
+          </div>
+          <div class="col-md mb">
+          </div>
+        </div>
+      </form><br><hr>
+      <h2>Alunos Presentes</h2>
+      <div class="container">
+        <li>
+          <ol>
+            Pediogo
+          </ol>
+        </li>
+      </div>
+    </div>
+    {% endblock %}
+  </body>
+</html>
