@@ -12,14 +12,29 @@
       <h1>Área do Professor</h1>
       <hr>
       <form>
+        {{ form.csrf_token }}
         <div class="form-row">
           <div class="col-md-5 mb-2">
             <label for="validationServer01">Data</label>
-            <input class="form-control" id="datepicker" type="text" placeholder="dd/mm/aaaa" name="date" maxlength="10" OnKeyPress="formatar('##/##/####', this)" required>
+            {% if form.errors.data %}
+            {{ form.data(class="form-control is-invalid", id="date", type="text", placeholder="dd/mm/aaaa",  maxlength="10", OnKeyPress="formatar('##/##/####', this)") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.data(class="form-control", id="date", type="text", placeholder="dd/mm/aaaa",  maxlength="10", OnKeyPress="formatar('##/##/####', this)") }}
+            {% endif %}
           </div>
           <div class="col-md-7 mb-2">
             <label for="validationServer01">Sala</label>
-            <input type="text" class="form-control" id="validationServer01" placeholder="Sala" name="prof." required>
+            {% if form.errors.sala %}
+            {{ form.sala(class="form-control is-invalid", id="sala", type="text", placeholder="Sala") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.sala(class="form-control", id="sala", type="text", placeholder="Sala") }}
+            {% endif %}
           </div>
         </div>
         <br>
@@ -27,7 +42,7 @@
           <div class="col-md mb">
           </div>
           <div class="col-md mb">
-            <button type="submit" id="enviar" class="btn">Abrir Aula</button>
+            {{ form.profSubmit(type="submit", id="enviar", class="btn", value="Abrir Aula") }}
           </div>
           <div class="col-md mb">
           </div>
@@ -35,11 +50,11 @@
       </form><br><hr>
       <h2>Alunos Presentes</h2>
       <div class="container">
-        <li>
-          <ol>
-            Pediogo
-          </ol>
-        </li>
+        <ol>
+          <li>Pediogo</li>
+          <li>Gustim</li>
+          <p>...</p>
+        </ol>
       </div>
     </div>
     {% endblock %}
