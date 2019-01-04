@@ -4,11 +4,11 @@ from wtforms.validators import DataRequired
 
 
 class PreForm(FlaskForm):
-    username = StringField("cpf", validators=[DataRequired()])
-    name = StringField('prof', validators=[DataRequired()])
-    cadSubmit = SubmitField("preSubmit")
+    cpf = StringField("cpf", validators=[DataRequired()])
+    prof = StringField('prof', validators=[DataRequired()])
+    preSubmit = SubmitField("preSubmit")
 
 class ProfForm(FlaskForm):
-    username = StringField("data", validators=[DataRequired()])
-    password = PasswordField("sala", validators=[DataRequired()])
-    logSubmit = SubmitField("profSubmit")
+    data = StringField("data", validators=[DataRequired()])
+    sala = StringField("sala", validators=[DataRequired()])
+    profSubmit = SubmitField("profSubmit")
