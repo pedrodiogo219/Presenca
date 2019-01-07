@@ -50,11 +50,18 @@
       </form><br><hr>
       <h2>Alunos Presentes</h2>
       <div class="container">
+        {% if dados[0] %}
         <ol>
-          <li>Pediogo</li>
-          <li>Gustim</li>
-          <p>...</p>
+            {% for aluno in dados %}
+            <li>
+                {{ aluno.nome }}
+            </li>
+            {% endfor %}
         </ol>
+      {% else %}
+            <p>NAO TEM NINGUEM AINDA</p>
+      {% endif %}
+
       </div>
     </div>
     {% endblock %}
