@@ -10,3 +10,6 @@ app.config['SECRET_KEY'] = 'ASJDIDASDASDADS'
 manager = Manager(app)
 
 from app.controllers import default
+
+from app.controllers.functions import shufflebg
+app.jinja_env.globals.update(shufflebg=shufflebg)
