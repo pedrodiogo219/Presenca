@@ -16,8 +16,7 @@ manager.add_command('db',  MigrateCommand)
 from app.models import tables
 from app.controllers import default
 
-<<<<<<< HEAD
+
 from app.controllers.functions import shufflebg
 app.jinja_env.globals.update(shufflebg=shufflebg)
-=======
->>>>>>> devPedro
+
