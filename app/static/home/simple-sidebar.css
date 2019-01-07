@@ -143,14 +143,16 @@ html {
   scroll-behavior: smooth;
 }
 .tabela {
-            font-family: Verdana, Arial, Helvetica, sans-serif;
-            font-size: 10px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 10px;
 }
 #logmain{
   background-color: white;
   margin-top: 2%;
   padding: 30px;
   border-radius: 1.0001%;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 #enviar{
@@ -176,4 +178,24 @@ html {
   color: #000000;
   background-color: #72006d !important;
   border-color: #ffb733;
+}
+
+footer.thin{
+  background-color: #42003f;
+  color: grey;
+  text-align: center;
+  bottom: 0;
+  font-size: 15px;
+  border-bottom-left-radius: 1.0001%;
+  border-bottom-right-radius: 1.0001%;
+}
+.fa-heart{
+  font-size: 12px;
+  color: red;
+}
+.ftLink{
+  color: #97247d;
+}
+.ftLink:hover{
+  color: purple;
 }
