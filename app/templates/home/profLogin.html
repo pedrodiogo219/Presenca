@@ -8,13 +8,15 @@
   <body>
     {% block body %}
       <div class="container" id="logmain">
-        <h1>Ei professor, parece que você não está logado</h1>
+        <div class="alert alert-purple" role="alert">
+          Ei, professor, parece que você não está logado!
+        </div>
         <hr>
         <h1>Fazer Login</h1>
         {{ form.csrf_token }}
         <div class="form-row bootstrap-iso">
-          <div class="col-md-5 mb-2">
-            <label for="cpf">CPF</label>
+          <div class="col-md-6 mb-2">
+            <label for="cpf">Usuário</label>
             {% if form.errors.user %}
             {{ form.user(class="form-control is-invalid", id="user", placeholder="Usuário") }}
             <div class="invalid-feedback">
@@ -24,8 +26,8 @@
             {{ form.user(class="form-control", id="user", placeholder="Usuário") }}
             {% endif %}
           </div>
-          <div class="col-md-7 mb-2">
-            <label for="validationServer01">Professor</label>
+          <div class="col-md-6 mb-2">
+            <label for="validationServer01">Senha</label>
             {% if form.errors.psswd %}
             {{ form.psswd(class="form-control is-invalid", id="psswd", placeholder="Senha") }}
             <div class="invalid-feedback">
@@ -35,10 +37,10 @@
             {{ form.psswd(class="form-control", id="psswd", placeholder="Senha") }}
             {% endif %}
           </div>
-          </div>
-          <br>
-          <div class="form-row">
-            <div class="col-md mb">
+        </div>
+        <br>
+        <div class="form-row">
+          <div class="col-md mb">
             </div>
             <div class="col-md mb">
               {{ form.profLogSubmit(type="submit", id="enviar", class="btn", value="Enviar") }}
@@ -47,7 +49,6 @@
             </div>
           </div>
         </form>
-      </div>
       </div>
     {% endblock %}
   </body>

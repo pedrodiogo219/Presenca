@@ -48,21 +48,7 @@
           </div>
         </div>
       </form><br><hr>
-      <h2>Alunos Presentes</h2>
-      <div class="container">
-        {% if dados[0] %}
-        <ol>
-            {% for aluno in dados %}
-            <li>
-                {{ aluno.nome }}
-            </li>
-            {% endfor %}
-        </ol>
-      {% else %}
-            <p>NAO TEM NINGUEM AINDA</p>
-      {% endif %}
-
-      </div>
+      <p style="margin-bottom:0px;">Acesse <a href="lista" class="ftLink">aqui</a> a lista de presença da sala x</p>
     </div>
     {% endblock %}
   </body>

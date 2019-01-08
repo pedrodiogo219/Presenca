@@ -3,6 +3,7 @@ from flask import render_template
 
 from app.models.forms import PreForm
 from app.models.forms import ProfForm
+from app.models.forms import ProfLogin
 
 from app.models import tables
 
@@ -19,7 +20,6 @@ def index():
                             form=form)
 
 @app.route("/prof", methods=["POST", "GET"])
-
 def prof():
     dados = tables.Aluno.query.all()
     print(dados)

@@ -199,3 +199,8 @@ footer.thin{
 .ftLink:hover{
   color: purple;
 }
+.alert-purple{
+  background-color: #e0b5d5 !important;
+  color: #4b0041 !important;
+  border-color: #97247d !important;
+}
