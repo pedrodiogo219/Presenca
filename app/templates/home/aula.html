@@ -10,20 +10,11 @@
     {% block body %}
       <h1>Área do Professor</h1>
       <hr>
+      <p>Acesse <a href="lista" class="ftLink">aqui</a> a lista de presença da sala x</p>
+      <br>
       <form>
         {{ form.csrf_token }}
         <div class="form-row bootstrap-iso">
-          <div class="col-md-5 mb-2">
-            <label for="validationServer01">Data</label>
-            {% if form.errors.data %}
-            {{ form.data(class="form-control is-invalid", id="date", type="text", placeholder="dd/mm/aaaa",  maxlength="10", OnKeyPress="formatar('##/##/####', this)") }}
-            <div class="invalid-feedback">
-              Este campo é obrigatorio!
-            </div>
-            {% else %}
-            {{ form.data(class="form-control", id="date", type="text", placeholder="dd/mm/aaaa",  maxlength="10", OnKeyPress="formatar('##/##/####', this)") }}
-            {% endif %}
-          </div>
           <div class="col-md-7 mb-2">
             <label for="validationServer01">Sala</label>
             {% if form.errors.sala %}
@@ -33,6 +24,17 @@
             </div>
             {% else %}
             {{ form.sala(class="form-control", id="sala", type="text", placeholder="Sala") }}
+            {% endif %}
+          </div>
+          <div class="col-md-5 mb-2">
+            <label for="validationServer01">Data</label>
+            {% if form.errors.data %}
+            {{ form.data(class="form-control is-invalid", id="date", type="text", placeholder="dd/mm/aaaa",  maxlength="10", OnKeyPress="formatar('##/##/####', this)") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.data(class="form-control", id="date", type="text", placeholder="dd/mm/aaaa",  maxlength="10", OnKeyPress="formatar('##/##/####', this)") }}
             {% endif %}
           </div>
         </div>
@@ -47,7 +49,6 @@
           </div>
         </div>
       </form><br><hr>
-      <p style="margin-bottom:0px;">Acesse <a href="lista" class="ftLink">aqui</a> a lista de presença da sala x</p>
     {% endblock %}
   </body>
 </html>
