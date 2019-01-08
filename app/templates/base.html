@@ -27,7 +27,7 @@
     <!-- Special version of Bootstrap that only affects content wrapped in .bootstrap-iso -->
     <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
   </head>
-  <body class="bg">
+  <body class="{{ shufflebg() }}">
     <div id="wrapper">
 
         <!-- Sidebar -->
@@ -56,17 +56,18 @@
                 <button href="#menu-toggle" class="btn fab fa-uniregistry" id="menu-toggle"></button>
         </div>
         <div class="container">
+          <br>
+          <div class="container" id="logmain">
           {% block body %}
           {% endblock %}
+          </div>
           <footer class="thin">
             <div class="container">
-              <p>Desenvolvido com o <i class="fas fa-heart"></i> pela equipe Uberhub <a href="https://github.com/augusto-moraes" class="ftLink" target="_blank">Gustim</a> e <a href="https://github.com/pedrodiogo219" class="ftLink" target="_blank">Pediogo</a></p>
+              <p>Desenvolvido com <i class="fas fa-heart"></i> pela equipe Uberhub <a href="https://github.com/augusto-moraes" class="ftLink" target="_blank">Gustim</a> e <a href="https://github.com/pedrodiogo219" class="ftLink" target="_blank">Pediogo</a></p>
             </div>
           </footer>
         </div>
     </div>
-    <!-- Footer -->
-<!-- Footer -->
 
     <!-- /#wrapper -->
 
