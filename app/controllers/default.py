@@ -21,8 +21,6 @@ def index():
 
 @app.route("/prof", methods=["POST", "GET"])
 def prof():
-    dados = tables.Aluno.query.all()
-    print(dados)
 
     form = ProfForm()
     if form.validate_on_submit():
@@ -31,9 +29,16 @@ def prof():
     else:
         print(form.errors)
     return render_template('home/aula.html',
-                            form=form,
-                            dados=dados)
+                            form=form)
 
 @app.route("/uberhub", methods=["POST", "GET"])
 def sobre():
     return render_template('home/sobre.html')
+
+@app.route("/lista")
+def lista():
+    dados = tables.Aluno.query.all()
+    print(dados)
+
+    return render_template('home/table.html',
+                            dados=dados)
