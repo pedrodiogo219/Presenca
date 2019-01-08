@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+<html>
+  <head>
+    {% block head %}
+    <title>Login</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block body %}
+      <div class="container" id="logmain">
+        <h1>Ei professor, parece que você não está logado</h1>
+        <hr>
+        <h1>Fazer Login</h1>
+        {{ form.csrf_token }}
+        <div class="form-row bootstrap-iso">
+          <div class="col-md-5 mb-2">
+            <label for="cpf">CPF</label>
+            {% if form.errors.user %}
+            {{ form.user(class="form-control is-invalid", id="user", placeholder="Usuário") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.user(class="form-control", id="user", placeholder="Usuário") }}
+            {% endif %}
+          </div>
+          <div class="col-md-7 mb-2">
+            <label for="validationServer01">Professor</label>
+            {% if form.errors.psswd %}
+            {{ form.psswd(class="form-control is-invalid", id="psswd", placeholder="Senha") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.psswd(class="form-control", id="psswd", placeholder="Senha") }}
+            {% endif %}
+          </div>
+          </div>
+          <br>
+          <div class="form-row">
+            <div class="col-md mb">
+            </div>
+            <div class="col-md mb">
+              {{ form.profLogSubmit(type="submit", id="enviar", class="btn", value="Enviar") }}
+            </div>
+            <div class="col-md mb">
+            </div>
+          </div>
+        </form>
+      </div>
+      </div>
+    {% endblock %}
+  </body>
+</html>

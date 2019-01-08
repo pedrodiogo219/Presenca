@@ -12,3 +12,8 @@ class ProfForm(FlaskForm):
     data = StringField("data", validators=[DataRequired(message="Campo Obrigatório!"), Length(min=10, max=10, message="Data invalida")])
     sala = StringField("sala", validators=[DataRequired(message="Campo Obrigatório!")])
     profSubmit = SubmitField("profSubmit")
+
+class ProfLogin(FlaskForm):
+    user = StringField("user", validators=[DataRequired(message="Campo Obrigatório!")])
+    psswd = PasswordField("psswd", validators=[DataRequired(message="Campo Obrigatório!")])
+    profLogSubmit = SubmitField("profLogSubmit")
