@@ -16,20 +16,34 @@
             <p>Acesse <a href="lista" class="ftLink">aqui</a> a lista de presença da sala x</p>
         {% endif %}
       <br>
-      <form>
+      <form action="" method="POST">
         {{ form.csrf_token }}
         <div class="form-row bootstrap-iso">
-          <div class="col-md-7 mb-2">
-            <label for="validationServer01">Sala</label>
-            {% if form.errors.sala %}
-            {{ form.sala(class="form-control is-invalid", id="sala", type="text", placeholder="Sala") }}
+            <!-----  CAMPO NIVEL  ----->
+            <div class="col-md-5 mb-2">
+            <label for="validationServer01">Nível</label>
+            {% if form.errors.nivel %}
+            {{ form.nivel(class="form-control is-invalid", id="nivel", type="text", placeholder="Nível") }}
             <div class="invalid-feedback">
-              Este campo é obrigatorio!
+              Este campo é obrigatório!
             </div>
             {% else %}
-            {{ form.sala(class="form-control", id="sala", type="text", placeholder="Sala") }}
+            {{ form.nivel(class="form-control", id="nivel", type="text", placeholder="Nível") }}
             {% endif %}
           </div>
+           <!-----  CAMPO HORARIO  ----->
+          <div class="col-md-2 mb-2">
+              <label for="validationServer01">Horário</label>
+              {% if form.errors.horario %}
+                  {{ form.horario(class="form-control is-invalid", id="horario", type="text", placeholder="Horário") }}
+                  <div class="invalid-feedback">
+                      Este campo é obrigatório!
+                  </div>
+              {% else %}
+                  {{ form.horario(class="form-control", id="horario", type="text", placeholder="Horário") }}
+              {% endif %}
+          </div>
+          <!-----  CAMPO DATA ----->
           <div class="col-md-5 mb-2">
             <label for="validationServer01">Data</label>
             {% if form.errors.data %}

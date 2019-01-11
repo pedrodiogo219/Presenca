@@ -44,22 +44,28 @@ class Professor(db.Model):
 class Aula(db.Model):
     __tablename__ = "aula"
 
-    id  = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    dia = db.Column(db.Date)
+    id       = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    dia      = db.Column(db.Date)
     horario  = db.Column(db.String(5), CheckConstraint('horario="manha" or horario="tarde"'), nullable=False)
-    nivel = db.Column(db.String(15), nullable=False)
-    id_prof = db.Column(db.Integer, db.ForeignKey('professor.id'))
+    nivel    = db.Column(db.String(15), nullable=False)
+    id_prof  = db.Column(db.Integer, db.ForeignKey('professor.id'))
 
     fk_professor =  db.relationship('Professor', foreign_keys=id_prof)
+
+    def __init__(self, d, h, n, i):
+        self.dia     = d
+        self.horario = h
+        self.nivel   = n
+        self.id_prof = i
 
 
 class Presenca(db.Model):
     __tablename__ = "presenca"
 
-    id_aula = db.Column(db.Integer, db.ForeignKey('aula.id'), primary_key=True)
+    id_aula  = db.Column(db.Integer, db.ForeignKey('aula.id'), primary_key=True)
     id_aluno = db.Column(db.Integer, db.ForeignKey('aluno.id'), primary_key=True)
 
-    fk_aula = db.relationship('Aula', foreign_keys=id_aula)
+    fk_aula  = db.relationship('Aula', foreign_keys=id_aula)
     fk_aluno = db.relationship('Aluno', foreign_keys=id_aluno)
    
 

@@ -1,4 +1,4 @@
-from app import app, lm
+from app import app, db, lm
 from flask import render_template, redirect, url_for
 from flask_login import login_user, logout_user, current_user
 
@@ -7,6 +7,8 @@ from app.models.forms import ProfForm
 from app.models.forms import ProfLogin
 
 from app.models import tables
+
+from app.controllers.functions import strToDate
 
 @app.route("/index", methods=["POST", "GET"])
 @app.route("/", methods=["POST", "GET"])
@@ -24,11 +26,20 @@ def index():
 def prof():
 
     if current_user.is_authenticated:
-
         form = ProfForm()
         if form.validate_on_submit():
-            print(form.data.data)
-            print(form.sala.data)
+            horario = form.horario.data
+            if form.horario.data == "manhã":
+                horario = "manha"
+
+            dia = strToDate(form.data.data)
+
+            new_aula = tables.Aula(dia, horario, form.nivel.data, current_user.id)
+
+            db.session.add(new_aula)
+            db.session.commit()
+            print("commit feito")
+            return redirect(url_for("lista"))
         else:
             print(form.errors)
         return render_template('home/aula.html',
@@ -78,3 +89,14 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for("index"))
+
+@app.route("/teste")
+def teste():
+    dia = strToDate("31/12/2019")
+
+    new_aula = tables.Aula(dia, "tarde", "Intermediario", 1)
+    db.session.add(new_aula)
+    db.session.commit()
+
+
+    return "deu certo"
