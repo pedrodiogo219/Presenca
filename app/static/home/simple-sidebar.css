@@ -207,3 +207,6 @@ footer.thin{
 spam.big{
   font-size: 25px;
 }
+
+*::selection { background: #722872; color: #fff; }
+*::-moz-selection { background: #722872; color: #fff; }
