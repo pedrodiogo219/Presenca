@@ -34,7 +34,7 @@ def prof():
         return render_template('home/aula.html',
                                 form=form)
     else:
-        return "Voce precisa estar logado pra visualizar essa pagina"
+        return redirect(url_for("login"))
 
 @app.route("/uberhub", methods=["POST", "GET"])
 def sobre():
