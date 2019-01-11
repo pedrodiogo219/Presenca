@@ -10,7 +10,11 @@
     {% block body %}
       <h1>Área do Professor</h1>
       <hr>
-      <p>Acesse <a href="lista" class="ftLink">aqui</a> a lista de presença da sala x</p>
+        {% if current_user.is_authenticated %}
+            <p>Olá, {{ current_user.apelido }}, acesse <a href="lista" class="ftLink">aqui</a> a lista de presença da sala x</p>
+        {% else %}
+            <p>Acesse <a href="lista" class="ftLink">aqui</a> a lista de presença da sala x</p>
+        {% endif %}
       <br>
       <form>
         {{ form.csrf_token }}

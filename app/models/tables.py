@@ -9,7 +9,7 @@ class Aluno(db.Model):
     email    = db.Column(db.String(50), nullable=False, unique=True)
     nome     = db.Column(db.String(50), nullable=False)
     telefone = db.Column(db.String(11))
-    horario  = db.Column(db.String(5), CheckConstraint('horario="manha" or horario="tarde"'), nullable=False)
+    horario  = db.Column(db.String(5), CheckConstraint('horario IN ("manha", "tarde")'), nullable=False)
     ID_URI   = db.Column(db.String(5), unique=True)
 
 
@@ -23,6 +23,22 @@ class Professor(db.Model):
     nome     = db.Column(db.String(50), nullable=False)
     telefone = db.Column(db.String(11))
     ID_URI   = db.Column(db.String(5), unique=True)
+    senha    = db.Column(db.String(30), nullable=False)
+
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_active(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
 
 
 class Aula(db.Model):
