@@ -42,8 +42,9 @@ def prof():
             return redirect(url_for("lista"))
         else:
             print(form.errors)
-        return render_template('home/aula.html',
-                                form=form)
+
+        aulas = tables.Aula.query.filter_by(id_prof=current_user.id)
+        return render_template('home/aula.html', form=form, aulas=aulas)
     else:
         return redirect(url_for("login"))
 
@@ -51,9 +52,10 @@ def prof():
 def sobre():
     return render_template('home/sobre.html')
 
-@app.route("/lista")
-def lista():
-    dados = tables.Aluno.query.all()
+@app.route("/lista/")
+@app.route("/lista/<id_aula>")
+def lista(id_aula=None):
+    dados = tables.Presenca.query.filter_by(id_aula=id_aula)
     print(dados)
 
     return render_template('home/table.html',

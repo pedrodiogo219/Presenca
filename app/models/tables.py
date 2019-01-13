@@ -1,4 +1,5 @@
 from app import db
+import sqlalchemy as sa
 from sqlalchemy import CheckConstraint
 
 class Aluno(db.Model):
@@ -48,7 +49,9 @@ class Aula(db.Model):
     dia      = db.Column(db.Date)
     horario  = db.Column(db.String(5), CheckConstraint('horario="manha" or horario="tarde"'), nullable=False)
     nivel    = db.Column(db.String(15), nullable=False)
+    ativa    = db.Column(db.Boolean, default=False, server_default=sa.sql.expression.false(), nullable=False)
     id_prof  = db.Column(db.Integer, db.ForeignKey('professor.id'))
+
 
     fk_professor =  db.relationship('Professor', foreign_keys=id_prof)
 

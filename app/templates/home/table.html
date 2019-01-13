@@ -9,7 +9,7 @@
   <body>
     {% block body %}
     <h1>Lista da Sala x</h1>
-    
+    <!--
     {% if dados[0] %}
     <table class="table table-hover table-sm">
       <thead>
@@ -36,6 +36,12 @@
       Parece que não tem nada aqui
     </div>
     {% endif %}
+    -->
+
+
+    {% for dado in dados %}
+        <p>aula: {{ dado.id_aula }}, aluno: {{ dado.id_aluno }}</p>
+    {% endfor %}
     {% endblock %}
   </body>
 </html>
