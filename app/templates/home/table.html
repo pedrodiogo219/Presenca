@@ -8,40 +8,48 @@
   </head>
   <body>
     {% block body %}
-    <h1>Lista da Sala x</h1>
-    <!--
+    <h1>Lista de Presença</h1>
+        <p>{{ dados[0][2].dia }}</p>
+        <p>{{ dados[0][2].horario }}</p>
+        <p>{{ dados[0][2].nivel }}</p>
+
     {% if dados[0] %}
     <table class="table table-hover table-sm">
       <thead>
         <tr>
           <th scope="col">#</th>
+          <th scope="col">id</th>
           <th scope="col">Nome</th>
           <th scope="col">E-mail</th>
           <th scope="col">CPF</th>
         </tr>
       </thead>
       <tbody>
-        {% for aluno in dados %}
+
+        {% for dado in dados %}
         <tr>
-          <th scope="row">{{ aluno.id }}</th>
-          <td>{{ aluno.nome }}</td>
-          <td>{{ aluno.email }}</td>
-          <td>{{ aluno.cpf }}</td>
+          <th scope="row">{{ loop.index }}</th>
+          <td>{{ dado[1].id }}</td>
+          <td>{{ dado[1].nome }}</td>
+          <td>{{ dado[1].email }}</td>
+          <td>{{ dado[1].cpf }}</td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
+        <p>{{ dado }}</p>
     {% else %}
     <div class="alert alert-purple" role="alert">
       Parece que não tem nada aqui
     </div>
     {% endif %}
-    -->
 
 
+    <!--
     {% for dado in dados %}
         <p>aula: {{ dado.id_aula }}, aluno: {{ dado.id_aluno }}</p>
     {% endfor %}
+    -->
     {% endblock %}
   </body>
 </html>

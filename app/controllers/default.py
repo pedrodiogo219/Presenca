@@ -1,6 +1,6 @@
-from app import app, db, lm
 from flask import render_template, redirect, url_for
 from flask_login import login_user, logout_user, current_user
+from app import app, db, lm, conn, session
 
 from app.models.forms import PreForm
 from app.models.forms import ProfForm
@@ -38,7 +38,6 @@ def prof():
 
             db.session.add(new_aula)
             db.session.commit()
-            print("commit feito")
             return redirect(url_for("lista"))
         else:
             print(form.errors)
@@ -55,11 +54,31 @@ def sobre():
 @app.route("/lista/")
 @app.route("/lista/<id_aula>")
 def lista(id_aula=None):
-    dados = tables.Presenca.query.filter_by(id_aula=id_aula)
-    print(dados)
+    if current_user.is_authenticated:
 
-    return render_template('home/table.html',
-                            dados=dados)
+        #if id_aula == None:
+
+        """, tables.Aluno.id==tables.Presenca.id_aluno"""
+        """, tables.Aula.id==tables.Presenca.id_aula"""
+
+        dados = tables.Aluno.query\
+            .join(tables.Presenca) \
+            .join(tables.Aula)\
+            .filter_by(id=id_aula)
+
+        dados = session.query(tables.Presenca, tables.Aluno, tables.Aula).join(tables.Aluno).join(tables.Aula).filter_by(id=id_aula).all()
+        """dados = tables.Aluno.query\
+            .join(tables.Presenca, tables.Presenca.id_aluno ==tables.Aluno.id)\
+            .join(tables.Aula, tables.Aula.id==tables.Presenca.id_aula)\
+            .filter_by(id_aula=id_aula)
+        """
+        print(dados)
+        print("printei")
+
+        return render_template('home/table.html',
+                                dados=dados)
+    else:
+        return redirect(url_for('login'))
 
 
 @lm.user_loader
@@ -94,11 +113,7 @@ def logout():
 
 @app.route("/teste")
 def teste():
-    dia = strToDate("31/12/2019")
-
-    new_aula = tables.Aula(dia, "tarde", "Intermediario", 1)
-    db.session.add(new_aula)
-    db.session.commit()
-
-
+    query = session.query(tables.Presenca, tables.Aluno, tables.Aula).join(tables.Aluno).join(tables.Aula).all()
+    print(query)
+    #print(conn.execute(query))
     return "deu certo"
