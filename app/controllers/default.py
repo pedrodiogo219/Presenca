@@ -56,29 +56,41 @@ def sobre():
 def lista(id_aula=None):
     if current_user.is_authenticated:
 
-        #if id_aula == None:
+        if id_aula == None:
+            id_aula = tables.Aula.query.filter_by(id_prof=current_user.id).order_by(tables.Aula.id.desc()).first().id
 
-        """, tables.Aluno.id==tables.Presenca.id_aluno"""
-        """, tables.Aula.id==tables.Presenca.id_aula"""
 
-        dados = tables.Aluno.query\
-            .join(tables.Presenca) \
-            .join(tables.Aula)\
-            .filter_by(id=id_aula)
+        aula = tables.Aula.query.filter_by(id=id_aula).first()
+        alunos = session.query(tables.Aluno).join(tables.Presenca).filter_by(id_aula=id_aula).all()
 
-        dados = session.query(tables.Presenca, tables.Aluno, tables.Aula).join(tables.Aluno).join(tables.Aula).filter_by(id=id_aula).all()
-        """dados = tables.Aluno.query\
-            .join(tables.Presenca, tables.Presenca.id_aluno ==tables.Aluno.id)\
-            .join(tables.Aula, tables.Aula.id==tables.Presenca.id_aula)\
-            .filter_by(id_aula=id_aula)
-        """
-        print(dados)
+        print(aula)
+        print(alunos)
         print("printei")
 
         return render_template('home/table.html',
-                                dados=dados)
+                                alunos=alunos, aula=aula)
     else:
         return redirect(url_for('login'))
+
+
+
+@app.route("/abriraula/<id_aula>")
+def abriraula(id_aula=None):
+    # if id_aula==None:
+
+    s = tables.Aula.__table__.update().where(tables.Aula.id==id_aula).values(ativa=1)
+    conn.execute(s)
+    return redirect(url_for('lista', id_aula=id_aula))
+
+
+@app.route("/fecharaula/<id_aula>")
+def fecharaula(id_aula=None):
+    # if id_aula==None:
+
+    s = tables.Aula.__table__.update().where(tables.Aula.id==id_aula).values(ativa=0)
+    conn.execute(s)
+    return redirect(url_for('lista', id_aula=id_aula))
+
 
 
 @lm.user_loader
