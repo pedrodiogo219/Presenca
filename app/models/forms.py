@@ -10,7 +10,9 @@ class PreForm(FlaskForm):
 
 class ProfForm(FlaskForm):
     data = StringField("data", validators=[DataRequired(message="Campo Obrigatório!"), Length(min=10, max=10, message="Data invalida")])
-    sala = StringField("sala", validators=[DataRequired(message="Campo Obrigatório!")])
+    horario = StringField("horario", validators=[DataRequired(message="Campo Obrigatório!"), Length(min=5, max=5, message="Horário inválido!")]) # manha, tarde
+    nivel = StringField("nivel", validators=[DataRequired(message="Campo Obrigatório!")]) #Iniciante, Iniciado, Intermediario, Avancado I, Avancado II
+    #sala = StringField("sala", validators=[DataRequired(message="Campo Obrigatório!")])
     profSubmit = SubmitField("profSubmit")
 
 class ProfLogin(FlaskForm):

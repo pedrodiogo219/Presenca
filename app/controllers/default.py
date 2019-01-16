@@ -1,12 +1,14 @@
-from app import app, lm
 from flask import render_template, redirect, url_for
 from flask_login import login_user, logout_user, current_user
+from app import app, db, lm, conn, session
 
 from app.models.forms import PreForm
 from app.models.forms import ProfForm
 from app.models.forms import ProfLogin
 
 from app.models import tables
+
+from app.controllers.functions import strToDate
 
 @app.route("/index", methods=["POST", "GET"])
 @app.route("/", methods=["POST", "GET"])
@@ -24,15 +26,24 @@ def index():
 def prof():
 
     if current_user.is_authenticated:
-
         form = ProfForm()
         if form.validate_on_submit():
-            print(form.data.data)
-            print(form.sala.data)
+            horario = form.horario.data
+            if form.horario.data == "manhã":
+                horario = "manha"
+
+            dia = strToDate(form.data.data)
+
+            new_aula = tables.Aula(dia, horario, form.nivel.data, current_user.id)
+
+            db.session.add(new_aula)
+            db.session.commit()
+            return redirect(url_for("lista"))
         else:
             print(form.errors)
-        return render_template('home/aula.html',
-                                form=form)
+
+        aulas = tables.Aula.query.filter_by(id_prof=current_user.id)
+        return render_template('home/aula.html', form=form, aulas=aulas)
     else:
         return redirect(url_for("login"))
 
@@ -40,13 +51,34 @@ def prof():
 def sobre():
     return render_template('home/sobre.html')
 
-@app.route("/lista")
-def lista():
-    dados = tables.Aluno.query.all()
-    print(dados)
+@app.route("/lista/")
+@app.route("/lista/<id_aula>")
+def lista(id_aula=None):
+    if current_user.is_authenticated:
 
-    return render_template('home/table.html',
-                            dados=dados)
+        #if id_aula == None:
+
+        """, tables.Aluno.id==tables.Presenca.id_aluno"""
+        """, tables.Aula.id==tables.Presenca.id_aula"""
+
+        dados = tables.Aluno.query\
+            .join(tables.Presenca) \
+            .join(tables.Aula)\
+            .filter_by(id=id_aula)
+
+        dados = session.query(tables.Presenca, tables.Aluno, tables.Aula).join(tables.Aluno).join(tables.Aula).filter_by(id=id_aula).all()
+        """dados = tables.Aluno.query\
+            .join(tables.Presenca, tables.Presenca.id_aluno ==tables.Aluno.id)\
+            .join(tables.Aula, tables.Aula.id==tables.Presenca.id_aula)\
+            .filter_by(id_aula=id_aula)
+        """
+        print(dados)
+        print("printei")
+
+        return render_template('home/table.html',
+                                dados=dados)
+    else:
+        return redirect(url_for('login'))
 
 
 @lm.user_loader
@@ -78,3 +110,10 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for("index"))
+
+@app.route("/teste")
+def teste():
+    query = session.query(tables.Presenca, tables.Aluno, tables.Aula).join(tables.Aluno).join(tables.Aula).all()
+    print(query)
+    #print(conn.execute(query))
+    return "deu certo"

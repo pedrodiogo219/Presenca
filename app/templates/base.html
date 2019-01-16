@@ -39,23 +39,23 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/" class="">Aluno</a>
+                    <a href="{{ url_for('index') }}" class="">Aluno</a>
                 </li>
                 {% if current_user.is_authenticated %}
                 <li>
-                    <a href="prof" class="">Minha Aula</a>
+                    <a href="{{ url_for('prof') }}" class="">Minha Aula</a>
                 </li>
                 {% else %}
                 <li>
-                    <a href="login" class="">Entrar como Professor</a>
+                    <a href="{{ ulr_for('login') }}" class="">Entrar como Professor</a>
                 </li>
                 {% endif %}
                 <li>
-                    <a href="uberhub" class="">Sobre o Uberhub</a>
+                    <a href="{{ url_for('sobre') }}" class="">Sobre o Uberhub</a>
                 </li>
                 {% if current_user.is_authenticated %}
                 <li>
-                    <a href="logout" class="">Sair</a>
+                    <a href="{{ url_for('logout') }}" class="">Sair</a>
                 </li>
                 {% endif %}
             </ul>

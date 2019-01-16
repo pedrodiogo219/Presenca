@@ -1,8 +1,13 @@
 from flask import Flask
 from flask_script import Manager
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
 from flask_migrate import Migrate, MigrateCommand
 from flask_login import LoginManager
+from config import SQLALCHEMY_DATABASE_URI
+
 
 
 app = Flask(__name__)
@@ -16,6 +21,10 @@ manager.add_command('db',  MigrateCommand)
 
 lm = LoginManager()
 lm.init_app(app)
+
+engine = create_engine(SQLALCHEMY_DATABASE_URI, echo=True)
+conn = engine.connect()
+session = sessionmaker(bind=engine)()
 
 from app.models import tables
 from app.controllers import default
