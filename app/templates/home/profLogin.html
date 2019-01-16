@@ -8,11 +8,8 @@
   <body>
     {% block body %}
         <form action="" method="POST">
-        <div class="alert alert-purple" role="alert">
-          Ei, professor, parece que você não está logado!
-        </div>
-        <hr>
         <h1>Fazer Login</h1>
+        <hr>
         {{ form.csrf_token }}
         <div class="form-row bootstrap-iso">
           <div class="col-md-6 mb-2">
