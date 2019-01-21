@@ -1,6 +1,8 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user, current_user
 from app import app, db, lm, conn, session
+from sqlalchemy.sql import select, and_
+from sqlalchemy import exc
 
 from app.models.forms import PreForm
 from app.models.forms import ProfForm
@@ -8,6 +10,7 @@ from app.models.forms import ProfLogin
 
 from app.models import tables
 
+from datetime import date
 from app.controllers.functions import strToDate
 
 @app.route("/index", methods=["POST", "GET"])
@@ -15,8 +18,44 @@ from app.controllers.functions import strToDate
 def index():
     form = PreForm()
     if form.validate_on_submit():
-        print(form.cpf.data)
-        print(form.prof.data)
+        cpf = ""
+        for letra in form.cpf.data:
+            if '9' >= letra >= '0':
+                cpf+=letra
+
+        query = select([tables.Aluno.id]).where(tables.Aluno.cpf == cpf)
+        res = conn.execute(query).fetchone()
+
+        if res:
+            id_aluno = res['id']
+            print(f"o id do aluno eh {id_aluno}")
+
+            query = select([tables.Aula.id]).where(
+                and_( tables.Aula.id_prof == tables.Professor.id,
+                      and_( tables.Aula.ativa == 1,
+                            and_( tables.Professor.apelido == form.prof.data,
+                                  tables.Aula.dia == date.today() ))))
+            result = conn.execute(query).fetchone()
+
+
+            if result:
+                id_aula = result['id']
+                new_presenca = tables.Presenca(id_aula, id_aluno)
+                db.session.add(new_presenca)
+                try:
+                    db.session.commit()
+                except exc.IntegrityError:
+                    db.session.rollback()
+                    flash("Voce ja tem presenca nessa aula")
+                
+
+
+            else:
+                flash("O professor nao tem nenhuma aula aberta pro dia de hoje")
+
+        else:
+            flash("cpf nao cadastrado")
+
     else:
         print(form.errors)
     return render_template('home/index.html',

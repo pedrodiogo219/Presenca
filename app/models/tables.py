@@ -70,6 +70,11 @@ class Presenca(db.Model):
 
     fk_aula  = db.relationship('Aula', foreign_keys=id_aula)
     fk_aluno = db.relationship('Aluno', foreign_keys=id_aluno)
+
+
+    def __init__(self, idAu, idAl):
+        self.id_aula=idAu
+        self.id_aluno=idAl
    
 
 """
