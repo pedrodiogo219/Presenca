@@ -70,7 +70,7 @@ class Presenca(db.Model):
 
     fk_aula  = db.relationship('Aula', foreign_keys=id_aula)
     fk_aluno = db.relationship('Aluno', foreign_keys=id_aluno)
-   
+
 
 """
 insert into aluno(cpf, email, nome, telefone, horario, ID_URI) values('12629753603', 'pedro@pedro.com', 'pedrin', '32323223', 'manha', '12345');
