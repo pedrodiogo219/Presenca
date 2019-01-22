@@ -14,16 +14,15 @@
       <div class="card border-danger">
       {% endif %}
         <div class="card-body">
-          {% if aula.ativa %}
-          <h5 class="card-title">Status: Aberta</h5>
-          {% else %}
-          <h5 class="card-title">Status: Fechada</h5>
-          {% endif %}
+          <h5 class="card-title">{{ aula.nivel }}</h5>
           <h6 class="card-subtitle mb-2 text-muted">{{ aula.dia }}</h6>
-          <p class="card-text">Turno: {{ aula.horario }}</p>
-          <center>
-            <a href="{{ url_for('lista', id_aula=aula.id) }}" class="card-link ftLink">Ver Aula</a>
-          </center>
+          <p class="card-text" style="margin-bottom:2px;">Turno: {{ aula.horario }}</p>
+          {% if aula.ativa %}
+          <p class="card-text" style="martgin-top:0px;">Aula Aberta</p>
+          {% else %}
+          <p class="card-text" style="martgin-top:0px;">Aula Fechada</p>
+          {% endif %}
+          <a href="{{ url_for('lista', id_aula=aula.id) }}" class="card-link ftLink">Ver Aula</a>
         </div>
       </div>
     </div>
