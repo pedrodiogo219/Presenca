@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+<html>
+  <head>
+    {% block head %}
+    <title>Consulta de Presenças</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block body %}
+        <form action="" method="POST">
+        <h1>Consulta de Presenças</h1>
+        <hr>
+        {{ form.csrf_token }}
+        <div class="form-row bootstrap-iso">
+            <label for="cpf">CPF</label>
+            {% if form.errors.user %}
+                {{ form.cpf(class="form-control is-invalid", id="cpf", placeholder="___.___.___-__",  maxlength="14", OnKeyPress="formatar('###.###.###-##', this)") }}
+                <div class="invalid-feedback">
+                    Este campo é obrigatorio!
+                </div>
+            {% else %}
+                {{ form.cpf(class="form-control", id="cpf", placeholder="___.___.___-__", maxlength="14", OnKeyPress="formatar('###.###.###-##', this)") }}
+            {% endif %}
+        </div>
+        <br>
+        <div class="form-row">
+          <div class="col-md mb">
+            </div>
+            <div class="col-md mb">
+                {{ form.consultaSubmit(type="submit", id="enviar", class="btn", value="Enviar") }}
+            </div>
+            <div class="col-md mb">
+            </div>
+          </div>
+        </form>
+    {% endblock %}
+  </body>
+</html>

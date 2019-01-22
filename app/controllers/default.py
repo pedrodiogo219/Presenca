@@ -1,17 +1,14 @@
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, current_user
 from app import app, db, lm, conn, session
 from sqlalchemy.sql import select, and_
 from sqlalchemy import exc
 
-from app.models.forms import PreForm
-from app.models.forms import ProfForm
-from app.models.forms import ProfLogin
-
+from app.models.forms import PreForm, ProfForm, ProfLogin, ConsultaAulas
 from app.models import tables
 
 from datetime import date
-from app.controllers.functions import strToDate
+from app.controllers.functions import strToDate, trataCpf, dateToStr
 
 @app.route("/index", methods=["POST", "GET"])
 @app.route("/", methods=["POST", "GET"])
@@ -28,7 +25,6 @@ def index():
 
         if res:
             id_aluno = res['id']
-            print(f"o id do aluno eh {id_aluno}")
 
             query = select([tables.Aula.id]).where(
                 and_( tables.Aula.id_prof == tables.Professor.id,
@@ -47,8 +43,6 @@ def index():
                 except exc.IntegrityError:
                     db.session.rollback()
                     flash("Voce ja tem presenca nessa aula")
-                
-
 
             else:
                 flash("O professor nao tem nenhuma aula aberta pro dia de hoje")
@@ -141,7 +135,7 @@ def load_user(id):
 def login():
     form = ProfLogin()
     print("aaaaa")
-    if form and form.validate_on_submit():
+    if request.method == "POST" and form.validate_on_submit():
         print("abriu")
         user = tables.Professor.query.filter_by(apelido=form.user.data).first()
         print("procurei")
@@ -162,9 +156,24 @@ def logout():
     logout_user()
     return redirect(url_for("index"))
 
-@app.route("/teste")
-def teste():
-    query = session.query(tables.Presenca, tables.Aluno, tables.Aula).join(tables.Aluno).join(tables.Aula).all()
-    print(query)
-    #print(conn.execute(query))
-    return "deu certo"
+@app.route("/consulta", methods=["POST", "GET"])
+def consulta():
+    form = ConsultaAulas()
+    if request.method == "POST" and form.validate_on_submit():
+        cpf = trataCpf(form.cpf.data)
+        query = select([tables.Aula.dia, tables.Aula.nivel, tables.Professor.apelido]).where(
+            and_( tables.Aula.id == tables.Presenca.id_aula,
+                and_(tables.Presenca.id_aluno==tables.Aluno.id,
+                    and_(tables.Aluno.cpf == cpf,
+                        and_(tables.Aula.id_prof == tables.Professor.id,
+                             tables.Aula.ativa == 0
+                        )
+                    )
+                )
+            )
+        )
+        result = conn.execute(query)
+        print(result)
+        return render_template('home/mostraAulas.html', aulas=result)
+    else:
+        return render_template('home/consultaAulas.html', form=form)

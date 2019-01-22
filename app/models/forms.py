@@ -19,3 +19,7 @@ class ProfLogin(FlaskForm):
     user = StringField("user", validators=[DataRequired(message="Campo Obrigatório!")])
     psswd = PasswordField("psswd", validators=[DataRequired(message="Campo Obrigatório!")])
     profLogSubmit = SubmitField("profLogSubmit")
+
+class ConsultaAulas(FlaskForm):
+    cpf = StringField("cpf", validators=[DataRequired(message="Campo Obrigatório!"), Length(min=14, max=14, message="CPF invalido")])
+    consultaSubmit = SubmitField("consultaSubmit")

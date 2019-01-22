@@ -27,7 +27,7 @@
     <!-- Special version of Bootstrap that only affects content wrapped in .bootstrap-iso -->
     <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
   </head>
-  <body class="bg">
+  <body class="{{ shufflebg() }}">
     <div id="wrapper">
 
         <!-- Sidebar -->
@@ -50,6 +50,9 @@
                     <a href="{{ url_for('login') }}" class="">Entrar como Professor</a>
                 </li>
                 {% endif %}
+                <li>
+                    <a href="{{ url_for('consulta') }}" class="">Consultar Presenças</a>
+                </li>
                 <li>
                     <a href="{{ url_for('sobre') }}" class="">Sobre o Uberhub</a>
                 </li>
