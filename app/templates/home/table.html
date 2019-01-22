@@ -37,14 +37,14 @@
         {% endfor %}
       </tbody>
     </table>
-        <a href="{{ url_for('abriraula', id_aula=aula.id) }}">abrir aula</a><br/>
-        <a href="{{ url_for('fecharaula', id_aula=aula.id) }}">fechar aula</a>
+
     {% else %}
     <div class="alert alert-purple" role="alert">
       Parece que não tem nada aqui
     </div>
     {% endif %}
-
+        <a href="{{ url_for('abriraula', id_aula=aula.id) }}">abrir aula</a><br/>
+        <a href="{{ url_for('fecharaula', id_aula=aula.id) }}">fechar aula</a>
     {% endblock %}
   </body>
 </html>

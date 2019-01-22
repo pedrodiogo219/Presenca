@@ -36,3 +36,4 @@ def trataCpf(cpf):
             r+=letra
 
     return r
+
