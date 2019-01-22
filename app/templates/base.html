@@ -43,7 +43,10 @@
                 </li>
                 {% if current_user.is_authenticated %}
                 <li>
-                    <a href="{{ url_for('prof') }}" class="">Minha Aula</a>
+                    <a href="{{ url_for('prof') }}" class="">Criar Aula</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('minhasAulas') }}" class="">Minhas Aulas</a>
                 </li>
                 {% else %}
                 <li>
@@ -67,7 +70,6 @@
                 <button href="#menu-toggle" class="btn fab fa-uniregistry" id="menu-toggle"></button>
         </div>
         <div class="container">
-          <br>
           <div class="container" id="logmain">
           {% block body %}
           {% endblock %}

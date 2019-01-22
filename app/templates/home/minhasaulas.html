@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block head %}
+  <title>Minhas Aulas</title>
+{% endblock %}
+{% block body %}
+<h1>Minhas Aulas</h1>
+<hr>
+<ul>
+    {% for aula in aulas %}
+        <li><a href="{{ url_for('lista', id_aula=aula.id) }}" class="ftLink">
+            Aula - {{ aula.dia }}: ativa? {{ aula.ativa }}<br>
+            Horario: {{ aula.horario }}
+        </a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

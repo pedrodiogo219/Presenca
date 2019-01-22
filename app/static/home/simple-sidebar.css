@@ -162,6 +162,9 @@ html {
   background-color: #42003f;
   color: white;
 }
+.btn:hover{
+  color: white !important;
+}
 .form-control:focus {
   border-color: #7f006c !important;
   box-shadow: 0 0 5px rgba(155, 0, 147, 1) !important;

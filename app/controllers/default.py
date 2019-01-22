@@ -47,7 +47,7 @@ def index():
                 except exc.IntegrityError:
                     db.session.rollback()
                     flash("Voce ja tem presenca nessa aula")
-                
+
 
 
             else:
@@ -86,7 +86,12 @@ def prof():
     else:
         return redirect(url_for("login"))
 
-@app.route("/uberhub", methods=["POST", "GET"])
+@app.route("/minhasAulas")
+def minhasAulas():
+    aulas = tables.Aula.query.filter_by(id_prof=current_user.id)
+    return render_template('home/minhasaulas.html', aulas=aulas)
+
+@app.route("/uberhub")
 def sobre():
     return render_template('home/sobre.html')
 

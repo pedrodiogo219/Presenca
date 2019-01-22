@@ -3,15 +3,21 @@
 <html>
   <head>
     {% block head %}
-    <title>Lista da Sala X</title>
+    <title>Lista da Sala</title>
     {% endblock %}
   </head>
   <body>
     {% block body %}
     <h1>Lista de Presença</h1>
-        <p>{{ aula.dia }}</p>
-        <p>{{ aula.horario }}</p>
-        <p>{{ aula.nivel }}</p>
+    <table class="table table-hover table-sm">
+        <thead>
+          <tr>
+            <th scope="col">{{ aula.dia }}</th>
+            <th scope="col">{{ aula.horario }}</th>
+            <th scope="col">{{ aula.nivel }}</th>
+          </tr>
+        </thead>
+      </table>
 
     {% if alunos[0] %}
     <table class="table table-hover table-sm">
@@ -37,12 +43,56 @@
         {% endfor %}
       </tbody>
     </table>
-        <a href="{{ url_for('abriraula', id_aula=aula.id) }}">abrir aula</a><br/>
-        <a href="{{ url_for('fecharaula', id_aula=aula.id) }}">fechar aula</a>
+      {% if aula.ativa %}
+      <div class="row">
+        <div class="col-md mb">
+        </div>
+        <div class="col-md mb">
+          <a href="{{ url_for('fecharaula', id_aula=aula.id) }}" class="btn" id="enviar">Fechar aula</a>
+        </div>
+        <div class="col-md mb">
+        </div>
+      </div>
+      {% else %}
+      <div class="row">
+        <div class="col-md mb">
+        </div>
+        <div class="col-md mb">
+          <a href="{{ url_for('abriraula', id_aula=aula.id) }}" class="btn" id="enviar">Abrir aula</a>
+        </div>
+        <div class="col-md mb">
+        </div>
+      </div>
+      {% endif %}
     {% else %}
     <div class="alert alert-purple" role="alert">
-      Parece que não tem nada aqui
+      {% if aula.ativa %}
+      Ei {{ current_user.apelido }}, parece que nenhum aluno se cadastrou na sua aula ainda.
+      {% else %}
+      Você precisa abrir a aula para que os alunos possam se cadastrar.
+      {% endif %}
     </div>
+      {% if aula.ativa %}
+      <div class="row">
+        <div class="col-md mb">
+        </div>
+        <div class="col-md mb">
+          <a href="{{ url_for('fecharaula', id_aula=aula.id) }}" class="btn" id="enviar">Fechar aula</a>
+        </div>
+        <div class="col-md mb">
+        </div>
+      </div>
+      {% else %}
+      <div class="row">
+        <div class="col-md mb">
+        </div>
+        <div class="col-md mb">
+          <a href="{{ url_for('abriraula', id_aula=aula.id) }}" class="btn" id="enviar">Abrir aula</a>
+        </div>
+        <div class="col-md mb">
+        </div>
+      </div>
+      {% endif %}
     {% endif %}
 
     {% endblock %}

@@ -10,20 +10,7 @@
     {% block body %}
       <h1>Área do Professor</h1>
       <hr>
-        {% if current_user.is_authenticated %}
-            <p>Olá, {{ current_user.apelido }}, acesse <a href="lista" class="ftLink">aqui</a> a lista de presença da sala x</p>
-            <ul>
-                {% for aula in aulas %}
-                    <li><a href="{{ url_for('lista', id_aula=aula.id) }}">
-                        Aula - {{ aula.dia }}: ativa? {{ aula.ativa }}<br>
-                        Horario: {{ aula.horario }}
-                    </a></li>
-                {% endfor %}
-            </ul>
-
-        {% else %}
-            <p>Acesse <a href="lista" class="ftLink">aqui</a> a lista de presença da sala x</p>
-        {% endif %}
+        <p>Olá {{ current_user.apelido }}, clique <a href="minhasAulas" class="ftLink">aqui</a> para acessar suas aulas, ou crie uma aula no formulário abaixo.</p>
       <br>
       <form action="" method="POST">
         {{ form.csrf_token }}
@@ -75,7 +62,7 @@
           <div class="col-md mb">
           </div>
         </div>
-      </form><br><hr>
+      </form><br>
     {% endblock %}
   </body>
 </html>
