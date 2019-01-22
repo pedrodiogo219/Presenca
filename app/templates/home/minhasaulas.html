@@ -3,14 +3,30 @@
   <title>Minhas Aulas</title>
 {% endblock %}
 {% block body %}
-<h1>Minhas Aulas</h1>
+<h1>Aulas do {{current_user.apelido}}</h1>
 <hr>
-<ul>
-    {% for aula in aulas %}
-        <li><a href="{{ url_for('lista', id_aula=aula.id) }}" class="ftLink">
-            Aula - {{ aula.dia }}: ativa? {{ aula.ativa }}<br>
-            Horario: {{ aula.horario }}
-        </a></li>
-    {% endfor %}
-</ul>
+<div class="row container">
+  {% for aula in aulas %}
+    <div class="col-sm-3" style="margin-bottom: 10px;">
+      {% if aula.ativa %}
+      <div class="card border-success">
+      {% else %}
+      <div class="card border-danger">
+      {% endif %}
+        <div class="card-body">
+          {% if aula.ativa %}
+          <h5 class="card-title">Status: Aberta</h5>
+          {% else %}
+          <h5 class="card-title">Status: Fechada</h5>
+          {% endif %}
+          <h6 class="card-subtitle mb-2 text-muted">{{ aula.dia }}</h6>
+          <p class="card-text">Turno: {{ aula.horario }}</p>
+          <center>
+            <a href="{{ url_for('lista', id_aula=aula.id) }}" class="card-link ftLink">Ver Aula</a>
+          </center>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
 {% endblock %}
