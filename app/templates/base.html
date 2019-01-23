@@ -48,14 +48,17 @@
                 <li>
                     <a href="{{ url_for('minhasAulas') }}" class="">Minhas Aulas</a>
                 </li>
+                <li>
+                    <a href="{{ url_for('consulta') }}" class="">Consultar Presenças</a>
+                </li>
                 {% else %}
+                <li>
+                    <a href="{{ url_for('consulta') }}" class="">Consultar Presenças</a>
+                </li>
                 <li>
                     <a href="{{ url_for('login') }}" class="">Entrar como Professor</a>
                 </li>
                 {% endif %}
-                <li>
-                    <a href="{{ url_for('consulta') }}" class="">Consultar Presenças</a>
-                </li>
                 <li>
                     <a href="{{ url_for('sobre') }}" class="">Sobre o Uberhub</a>
                 </li>
