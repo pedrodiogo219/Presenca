@@ -13,7 +13,7 @@ from app.controllers.functions import strToDate, trataCpf, dateToStr
 @app.route("/index", methods=["POST", "GET"])
 @app.route("/", methods=["POST", "GET"])
 def index():
-    
+
     form = PreForm()
     form.prof.choices = [(p.apelido, p.apelido) for p in tables.Professor.query.all()]
     if form.validate_on_submit():

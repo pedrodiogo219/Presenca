@@ -19,64 +19,81 @@
         </thead>
       </table>
 
-    {% if alunos[0] %}
-    <table class="table table-hover table-sm">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">id</th>
-          <th scope="col">Nome</th>
-          <th scope="col">E-mail</th>
-          <th scope="col">CPF</th>
-        </tr>
-      </thead>
-      <tbody>
+      {% if alunos[0] %}
+      <table class="table table-hover table-sm">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">id</th>
+            <th scope="col">Nome</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">CPF</th>
+          </tr>
+        </thead>
+        <tbody>
 
-        {% for aluno in alunos %}
-        <tr>
-          <th scope="row">{{ loop.index }}</th>
-          <td>{{ aluno.id }}</td>
-          <td>{{ aluno.nome }}</td>
-          <td>{{ aluno.email }}</td>
-          <td>{{ aluno.cpf }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-
-
-    {% else %}
-    <div class="alert alert-purple" role="alert">
-      {% if aula.ativa %}
-      Ei {{ current_user.apelido }}, parece que nenhum aluno se cadastrou na sua aula ainda.
+          {% for aluno in alunos %}
+          <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{ aluno.id }}</td>
+            <td>{{ aluno.nome }}</td>
+            <td>{{ aluno.email }}</td>
+            <td>{{ aluno.cpf }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+        {% if aula.ativa %}
+        <div class="row">
+          <div class="col-md mb">
+          </div>
+          <div class="col-md mb">
+            <a href="{{ url_for('fecharaula', id_aula=aula.id) }}" class="btn" id="enviar">Fechar aula</a>
+          </div>
+          <div class="col-md mb">
+          </div>
+        </div>
+        {% else %}
+        <div class="row">
+          <div class="col-md mb">
+          </div>
+          <div class="col-md mb">
+            <a href="{{ url_for('abriraula', id_aula=aula.id) }}" class="btn" id="enviar">Abrir aula</a>
+          </div>
+          <div class="col-md mb">
+          </div>
+        </div>
+        {% endif %}
       {% else %}
-      Você precisa abrir a aula para que os alunos possam se cadastrar.
-      {% endif %}
-    </div>
-      {% if aula.ativa %}
-      <div class="row">
-        <div class="col-md mb">
-        </div>
-        <div class="col-md mb">
-          <a href="{{ url_for('fecharaula', id_aula=aula.id) }}" class="btn" id="enviar">Fechar aula</a>
-        </div>
-        <div class="col-md mb">
-        </div>
+      <div class="alert alert-purple" role="alert">
+        {% if aula.ativa %}
+        Ei {{ current_user.apelido }}, parece que nenhum aluno se cadastrou na sua aula ainda.
+        {% else %}
+        Você precisa abrir a aula para que os alunos possam se cadastrar.
+        {% endif %}
       </div>
-      {% else %}
-      <div class="row">
-        <div class="col-md mb">
+        {% if aula.ativa %}
+        <div class="row">
+          <div class="col-md mb">
+          </div>
+          <div class="col-md mb">
+            <a href="{{ url_for('fecharaula', id_aula=aula.id) }}" class="btn" id="enviar">Fechar aula</a>
+          </div>
+          <div class="col-md mb">
+          </div>
         </div>
-        <div class="col-md mb">
-          <a href="{{ url_for('abriraula', id_aula=aula.id) }}" class="btn" id="enviar">Abrir aula</a>
+        {% else %}
+        <div class="row">
+          <div class="col-md mb">
+          </div>
+          <div class="col-md mb">
+            <a href="{{ url_for('abriraula', id_aula=aula.id) }}" class="btn" id="enviar">Abrir aula</a>
+          </div>
+          <div class="col-md mb">
+          </div>
         </div>
-        <div class="col-md mb">
-        </div>
-      </div>
+        {% endif %}
       {% endif %}
-    {% endif %}
-        <a href="{{ url_for('abriraula', id_aula=aula.id) }}">abrir aula</a><br/>
-        <a href="{{ url_for('fecharaula', id_aula=aula.id) }}">fechar aula</a>
     {% endblock %}
   </body>
 </html>

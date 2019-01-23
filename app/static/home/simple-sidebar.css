@@ -162,9 +162,6 @@ html {
   background-color: #42003f;
   color: white;
 }
-.border-success{
-  border-color: #97247d !important;
-}
 .btn:hover{
   background-color: #380a35;
   color: white !important;
