@@ -52,7 +52,8 @@ def index():
             flash("cpf nao cadastrado")
 
     else:
-        print(form.errors)
+        if form.errors:
+            flash(form.errors)
     return render_template('home/index.html',
                             form=form)
 
@@ -74,7 +75,8 @@ def prof():
             db.session.commit()
             return redirect(url_for("minhasAulas"))
         else:
-            print(form.errors)
+            if form.errors:
+                flash(form.errors)
 
         aulas = tables.Aula.query.filter_by(id_prof=current_user.id)
         return render_template('home/aula.html', form=form, aulas=aulas)
@@ -102,10 +104,6 @@ def lista(id_aula=None):
         aula = tables.Aula.query.filter_by(id=id_aula).first()
         alunos = session.query(tables.Aluno).join(tables.Presenca).filter_by(id_aula=id_aula).all()
 
-        print(aula)
-        print(alunos)
-        print("printei")
-
         return render_template('home/table.html',
                                 alunos=alunos, aula=aula)
     else:
@@ -115,7 +113,7 @@ def lista(id_aula=None):
 
 @app.route("/abriraula/<id_aula>")
 def abriraula(id_aula=None):
-    # if id_aula==None:
+    #if id_aula==None:
 
     s = tables.Aula.__table__.update().where(tables.Aula.id==id_aula).values(ativa=1)
     conn.execute(s)
@@ -140,20 +138,17 @@ def load_user(id):
 @app.route("/login", methods=["POST", "GET"])
 def login():
     form = ProfLogin()
-    print("aaaaa")
     if request.method == "POST" and form.validate_on_submit():
-        print("abriu")
         user = tables.Professor.query.filter_by(apelido=form.user.data).first()
-        print("procurei")
         if user:
             if user.senha == form.psswd.data:
                 login_user(user)
-                print("Você logou com sucesso.")
+                flash("Você logou com sucesso.")
                 return redirect(url_for("prof"))
             else:
-                print("Sua senha está incorreta.")
+                flash("Sua senha está incorreta.")
         else:
-            print("Usuário inválido.")
+            flash("Usuário inválido.")
     return render_template('home/profLogin.html', form=form)
 
 
@@ -162,13 +157,15 @@ def logout():
     logout_user()
     return redirect(url_for("index"))
 
-
+"""
 @app.route("/teste")
 def teste():
     query = session.query(tables.Presenca, tables.Aluno, tables.Aula).join(tables.Aluno).join(tables.Aula).all()
     print(query)
     #print(conn.execute(query))
     return "deu certo"
+"""
+
 
 @app.route("/consulta", methods=["POST", "GET"])
 def consulta():
@@ -187,7 +184,6 @@ def consulta():
             )
         )
         result = conn.execute(query)
-        print(result)
         return render_template('home/mostraAulas.html', aulas=result)
     else:
         return render_template('home/consultaAulas.html', form=form)
