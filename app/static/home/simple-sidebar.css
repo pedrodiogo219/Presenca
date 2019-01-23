@@ -166,6 +166,7 @@ html {
   border-color: #97247d !important;
 }
 .btn:hover{
+  background-color: #380a35;
   color: white !important;
 }
 .form-control:focus {
