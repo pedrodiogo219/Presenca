@@ -72,7 +72,7 @@ def prof():
 
             db.session.add(new_aula)
             db.session.commit()
-            return redirect(url_for("lista"))
+            return redirect(url_for("minhasAulas"))
         else:
             print(form.errors)
 
