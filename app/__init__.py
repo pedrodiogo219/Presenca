@@ -30,6 +30,7 @@ from app.models import tables
 from app.controllers import default
 
 
-from app.controllers.functions import shufflebg
+from app.controllers.functions import shufflebg, dateToStr
 app.jinja_env.globals.update(shufflebg=shufflebg)
+app.jinja_env.globals.update(dateToStr=dateToStr)
 

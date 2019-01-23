@@ -43,27 +43,8 @@
         {% endfor %}
       </tbody>
     </table>
-      {% if aula.ativa %}
-      <div class="row">
-        <div class="col-md mb">
-        </div>
-        <div class="col-md mb">
-          <a href="{{ url_for('fecharaula', id_aula=aula.id) }}" class="btn" id="enviar">Fechar aula</a>
-        </div>
-        <div class="col-md mb">
-        </div>
-      </div>
-      {% else %}
-      <div class="row">
-        <div class="col-md mb">
-        </div>
-        <div class="col-md mb">
-          <a href="{{ url_for('abriraula', id_aula=aula.id) }}" class="btn" id="enviar">Abrir aula</a>
-        </div>
-        <div class="col-md mb">
-        </div>
-      </div>
-      {% endif %}
+
+
     {% else %}
     <div class="alert alert-purple" role="alert">
       {% if aula.ativa %}
@@ -94,7 +75,8 @@
       </div>
       {% endif %}
     {% endif %}
-
+        <a href="{{ url_for('abriraula', id_aula=aula.id) }}">abrir aula</a><br/>
+        <a href="{{ url_for('fecharaula', id_aula=aula.id) }}">fechar aula</a>
     {% endblock %}
   </body>
 </html>

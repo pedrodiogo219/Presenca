@@ -9,7 +9,7 @@ def shufflebg():
         return "bg1"
     if x == 3:
         return "bg2"
-    if x == 3:
+    if x == 4:
         return "bg3"
     return "bg"
 
@@ -24,3 +24,16 @@ def strToDate(s):
     ano = int(ano)
 
     return date(ano, mes, dia)
+
+
+def dateToStr(d):
+    return "%i/%.2i/%i" % (d.day, d.month, d.year)
+
+def trataCpf(cpf):
+    r = ""
+    for letra in cpf:
+        if '9' >= letra >= '0':
+            r+=letra
+
+    return r
+

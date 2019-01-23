@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <ul>
+        {% for aula in aulas %}
+            <li>{{ dateToStr(aula[0]) }} - {{ aula.nivel }} - {{ aula.apelido }}</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
