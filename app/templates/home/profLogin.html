@@ -10,6 +10,17 @@
         <form action="" method="POST">
         <h1>Fazer Login</h1>
         <hr>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="alert alert-purple">
+                        <ul class=flashes>
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            {% endwith %}
         {{ form.csrf_token }}
         <div class="form-row bootstrap-iso">
           <div class="col-md-6 mb-2">
