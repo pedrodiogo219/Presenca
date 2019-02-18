@@ -8,6 +8,7 @@ from flask_migrate import Migrate, MigrateCommand
 from flask_login import LoginManager
 from config import SQLALCHEMY_DATABASE_URI
 
+from sqlalchemy.pool import SingletonThreadPool
 
 
 app = Flask(__name__)
@@ -22,7 +23,7 @@ manager.add_command('db',  MigrateCommand)
 lm = LoginManager()
 lm.init_app(app)
 
-engine = create_engine(SQLALCHEMY_DATABASE_URI, echo=True)
+engine = create_engine(SQLALCHEMY_DATABASE_URI, echo=True, poolclass=SingletonThreadPool)
 conn = engine.connect()
 session = sessionmaker(bind=engine)()
 
@@ -33,4 +34,3 @@ from app.controllers import default
 from app.controllers.functions import shufflebg, dateToStr
 app.jinja_env.globals.update(shufflebg=shufflebg)
 app.jinja_env.globals.update(dateToStr=dateToStr)
-
