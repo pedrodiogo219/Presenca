@@ -193,6 +193,11 @@ footer.thin{
   border-bottom-left-radius: 1.0001%;
   border-bottom-right-radius: 1.0001%;
 }
+span.thin{
+  color: grey;
+  bottom: 0;
+  font-size: 15px;
+}
 .fa-heart{
   font-size: 11.9px;
   color: red;
@@ -208,7 +213,7 @@ footer.thin{
   color: #4b0041 !important;
   border-color: #97247d !important;
 }
-spam.big{
+span.big{
   font-size: 25px;
 }
 

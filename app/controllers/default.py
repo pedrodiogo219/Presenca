@@ -17,12 +17,13 @@ def index():
     form = PreForm()
     form.prof.choices = [(p.apelido, p.apelido) for p in tables.Professor.query.all()]
     if form.validate_on_submit():
-        cpf = ""
-        for letra in form.cpf.data:
-            if '9' >= letra >= '0':
-                cpf+=letra
+        if form.id_uri.data:
+            id_uri = form.id_uri.data
+            query = select([tables.Aluno.id]).where(tables.Aluno.ID_URI == id_uri)
+        if form.email.data:
+            email = form.email.data
+            query = select([tables.Aluno.id]).where(tables.Aluno.email == email)
 
-        query = select([tables.Aluno.id]).where(tables.Aluno.cpf == cpf)
         res = conn.execute(query).fetchone()
 
         if res:
@@ -49,7 +50,7 @@ def index():
                 flash("O professor nao tem nenhuma aula aberta pro dia de hoje")
 
         else:
-            flash("cpf nao cadastrado")
+            flash("Dado nao cadastrado")
 
     else:
         if form.errors:
@@ -171,18 +172,32 @@ def teste():
 def consulta():
     form = ConsultaAulas()
     if request.method == "POST" and form.validate_on_submit():
-        cpf = trataCpf(form.cpf.data)
-        query = select([tables.Aula.dia, tables.Aula.nivel, tables.Professor.apelido]).where(
-            and_( tables.Aula.id == tables.Presenca.id_aula,
-                and_(tables.Presenca.id_aluno==tables.Aluno.id,
-                    and_(tables.Aluno.cpf == cpf,
-                        and_(tables.Aula.id_prof == tables.Professor.id,
-                             tables.Aula.ativa == 0
+        if form.id_uri.data:
+            id_uri = form.id_uri.data
+            query = select([tables.Aula.dia, tables.Aula.nivel, tables.Professor.apelido]).where(
+                and_( tables.Aula.id == tables.Presenca.id_aula,
+                    and_(tables.Presenca.id_aluno==tables.Aluno.id,
+                        and_(tables.Aluno.ID_URI == id_uri,
+                            and_(tables.Aula.id_prof == tables.Professor.id,
+                                 tables.Aula.ativa == 0
+                            )
                         )
                     )
                 )
             )
-        )
+        if form.email.data:
+            email = form.email.data
+            query = select([tables.Aula.dia, tables.Aula.nivel, tables.Professor.apelido]).where(
+                and_( tables.Aula.id == tables.Presenca.id_aula,
+                    and_(tables.Presenca.id_aluno==tables.Aluno.id,
+                        and_(tables.Aluno.email == email,
+                            and_(tables.Aula.id_prof == tables.Professor.id,
+                                 tables.Aula.ativa == 0
+                            )
+                        )
+                    )
+                )
+            )
         result = conn.execute(query)
         return render_template('home/mostraAulas.html', aulas=result)
     else:

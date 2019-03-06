@@ -1,9 +1,10 @@
 from flask_wtf import FlaskForm
 from wtforms import IntegerField ,DateField, StringField, PasswordField, BooleanField, FileField, SubmitField, SelectField
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, Length, Optional
 
 class PreForm(FlaskForm):
-    cpf = StringField("cpf", validators=[DataRequired(message="Campo Obrigatório!"), Length(min=14, max=14, message="CPF invalido")])
+    email = StringField("email", validators=[Length(min=6, max=35), Optional()])
+    id_uri = StringField("id_uri", validators=[Optional()])
     prof = SelectField('prof', choices=[])
     preSubmit = SubmitField("preSubmit")
 
@@ -19,5 +20,6 @@ class ProfLogin(FlaskForm):
     profLogSubmit = SubmitField("profLogSubmit")
 
 class ConsultaAulas(FlaskForm):
-    cpf = StringField("cpf", validators=[DataRequired(message="Campo Obrigatório!"), Length(min=14, max=14, message="CPF invalido")])
+    email = StringField("email", validators=[Length(min=6, max=35), Optional()])
+    id_uri = StringField("id_uri", validators=[Optional()])
     consultaSubmit = SubmitField("consultaSubmit")

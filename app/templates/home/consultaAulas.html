@@ -9,25 +9,39 @@
     {% block body %}
         <form action="" method="POST">
         <h1>Consulta de Presenças</h1>
+        <span class="thin">**Um dos campos (e-mail ou ID Uri) deve ser preenchido.</span>
         <hr>
         {{ form.csrf_token }}
         <div class="form-row bootstrap-iso">
-            <label for="cpf">CPF</label>
-            {% if form.errors.user %}
-                {{ form.cpf(class="form-control is-invalid", id="cpf", placeholder="___.___.___-__",  maxlength="14", OnKeyPress="formatar('###.###.###-##', this)") }}
-                <div class="invalid-feedback">
-                    Este campo é obrigatorio!
-                </div>
+          <div class="col-md-6 mb-2">
+            <label for="email">E-mail</label>
+            {% if form.errors.email %}
+            {{ form.email(class="form-control is-invalid", id="email", placeholder="example@example.com") }}
+            <div class="invalid-feedback">
+              Ao menos um campo deve ser preenchido!
+            </div>
             {% else %}
-                {{ form.cpf(class="form-control", id="cpf", placeholder="___.___.___-__", maxlength="14", OnKeyPress="formatar('###.###.###-##', this)") }}
+            {{ form.email(class="form-control", id="email", placeholder="example@example.com") }}
             {% endif %}
+          </div>
+          <div class="col-md-6 mb-2">
+            <label for="validationServer01">ID Uri</label>
+            {% if form.errors.id_uri %}
+            {{ form.id_uri(class="form-control is-invalid", id="id_uri", placeholder="ID Uri") }}
+            <div class="invalid-feedback">
+              Ao menos um campo deve ser preenchido!
+            </div>
+            {% else %}
+            {{ form.id_uri(class="form-control", id="id_uri", placeholder="ID Uri") }}
+            {% endif %}
+          </div>
         </div>
         <br>
         <div class="form-row">
           <div class="col-md mb">
             </div>
             <div class="col-md mb">
-                {{ form.consultaSubmit(type="submit", id="enviar", class="btn", value="Enviar") }}
+                {{ form.consultaSubmit(type="submit", id="enviar", class="btn", value="Consultar") }}
             </div>
             <div class="col-md mb">
             </div>
