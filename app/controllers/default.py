@@ -70,7 +70,7 @@ def prof():
 
             dia = strToDate(form.data.data)
 
-            new_aula = tables.Aula(dia, horario, form.nivel.data, current_user.id)
+            new_aula = tables.Aula(dia, horario, form.nivel.data, current_user.id, form.sala.data)
 
             db.session.add(new_aula)
             db.session.commit()

@@ -5,6 +5,8 @@
 {% block body %}
 <h1>Aulas do {{current_user.apelido}}</h1>
 <hr>
+<p>Olá {{ current_user.apelido }}, clique <a href="prof" class="ftLink">aqui</a> para criar uma nova aula.</p>
+<br>
 <div class="row container">
   {% for aula in aulas %}
     <div class="col-sm-3" style="margin-bottom: 10px;">

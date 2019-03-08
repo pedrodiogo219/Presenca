@@ -51,15 +51,17 @@ class Aula(db.Model):
     nivel    = db.Column(db.String(15), nullable=False)
     ativa    = db.Column(db.Boolean, default=False, server_default=sa.sql.expression.false(), nullable=False)
     id_prof  = db.Column(db.Integer, db.ForeignKey('professor.id'))
+    sala = db.Column(db.String(30), nullable=False)
 
 
     fk_professor =  db.relationship('Professor', foreign_keys=id_prof)
 
-    def __init__(self, d, h, n, i):
+    def __init__(self, d, h, n, i, s):
         self.dia     = d
         self.horario = h
         self.nivel   = n
         self.id_prof = i
+        self.sala    = s
 
 
 class Presenca(db.Model):
@@ -76,7 +78,7 @@ class Presenca(db.Model):
     def __init__(self, idAu, idAl):
         self.id_aula=idAu
         self.id_aluno=idAl
-   
+
 
 """
 insert into aluno(cpf, email, nome, telefone, horario, ID_URI) values('12629753603', 'pedro@pedro.com', 'pedrin', '32323223', 'manha', '12345');
