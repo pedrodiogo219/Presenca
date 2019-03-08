@@ -9,6 +9,11 @@
   <body>
     {% block body %}
     <h1>Lista de Presença</h1>
+    {% if aula.ativa %}
+    <p>Esta aula está <spam class="text-success">aberta</spam>.</p>
+    {% else %}
+    <p>Esta aula está <spam class="text-danger">fechada</spam>.</p>
+    {% endif %}
     <table class="table table-hover table-sm">
         <thead>
           <tr>
