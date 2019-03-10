@@ -1,7 +1,8 @@
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, current_user
-from app import app, db, lm, conn, session
+from app import app, db, lm, conn, session, engine
 from sqlalchemy.sql import select, and_
+from sqlalchemy.orm import sessionmaker
 from sqlalchemy import exc
 
 from app.models.forms import PreForm, ProfForm, ProfLogin, ConsultaAulas
@@ -16,14 +17,19 @@ def index():
 
     form = PreForm()
     form.prof.choices = [(p.apelido, p.apelido) for p in tables.Professor.query.all()]
-    if form.validate_on_submit():
+
+    if request.method == "POST" and form.validate_on_submit():
         if form.id_uri.data:
             id_uri = form.id_uri.data
             query = select([tables.Aluno.id]).where(tables.Aluno.ID_URI == id_uri)
-        if form.email.data:
+        elif form.email.data:
             email = form.email.data
             query = select([tables.Aluno.id]).where(tables.Aluno.email == email)
+        else:
+            flash('formulario vazio')
+            return redirect(url_for('index'))
 
+        conn = engine.connect()
         res = conn.execute(query).fetchone()
 
         if res:
@@ -63,6 +69,7 @@ def prof():
 
     if current_user.is_authenticated:
         form = ProfForm()
+        form.sala.choices = [(s.nome, s.nome) for s in tables.Sala.query.all()]
         if form.validate_on_submit():
             horario = form.horario.data
             if form.horario.data == "manhã":
@@ -103,6 +110,7 @@ def lista(id_aula=None):
 
 
         aula = tables.Aula.query.filter_by(id=id_aula).first()
+        session = sessionmaker(bind=engine)()
         alunos = session.query(tables.Aluno).join(tables.Presenca).filter_by(id_aula=id_aula).all()
 
         return render_template('home/table.html',
@@ -117,6 +125,7 @@ def abriraula(id_aula=None):
     #if id_aula==None:
 
     s = tables.Aula.__table__.update().where(tables.Aula.id==id_aula).values(ativa=1)
+    conn = engine.connect()
     conn.execute(s)
     return redirect(url_for('lista', id_aula=id_aula))
 
@@ -126,6 +135,7 @@ def fecharaula(id_aula=None):
     # if id_aula==None:
 
     s = tables.Aula.__table__.update().where(tables.Aula.id==id_aula).values(ativa=0)
+    conn = engine.connect()
     conn.execute(s)
     return redirect(url_for('lista', id_aula=id_aula))
 
