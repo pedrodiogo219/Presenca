@@ -52,15 +52,19 @@ class Aula(db.Model):
     ativa    = db.Column(db.Boolean, default=False, server_default=sa.sql.expression.false(), nullable=False)
     id_prof  = db.Column(db.Integer, db.ForeignKey('professor.id'))
     sala     = db.Column(db.String(30), db.ForeignKey('sala.nome'))
+    ciclo    = db.Column(db.Integer, db.ForeignKey('ciclo.id'))
 
-    fk_professor =  db.relationship('Professor', foreign_keys=id_prof)
+    fk_professor = db.relationship('Professor', foreign_keys=id_prof)
+    dk_sala      = db.relationship('Sala', foreign_keys=sala)
+    fk_ciclo     = db.relationship('Ciclo', foreign_keys=ciclo)
 
-    def __init__(self, d, h, n, i, s):
+    def __init__(self, d, h, n, i, s, c):
         self.dia     = d
         self.horario = h
         self.nivel   = n
         self.id_prof = i
         self.sala    = s
+        self.ciclo   = c
 
 
 class Instituicao(db.Model):
@@ -78,6 +82,25 @@ class Sala(db.Model):
     capacidade     = db.Column(db.Integer, nullable=False)
     id_instituicao = db.Column(db.Integer, db.ForeignKey('instituicao.id'))
 
+    fk_instituicao = db.relationship('Instituicao', foreign_keys=id_instituicao)
+
+
+class Ciclo(db.Model):
+    __tablename__ = "ciclo"
+
+    id          = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nome        = db.Column(db.String(50), nullable=False)
+    data_inicio = db.Column(db.Date)
+    data_fim    = db.Column(db.Date)
+
+
+class Participantes(db.Model):
+    __tablename__ = "participantes"
+
+    id_ciclo       = db.Column(db.Integer, db.ForeignKey('ciclo.id'), primary_key=True)
+    id_instituicao = db.Column(db.Integer, db.ForeignKey('instituicao.id'), primary_key=True)
+
+    fk_ciclo       = db.relationship('Ciclo', foreign_keys=id_ciclo)
     fk_instituicao = db.relationship('Instituicao', foreign_keys=id_instituicao)
 
 class Presenca(db.Model):

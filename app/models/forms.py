@@ -13,6 +13,7 @@ class ProfForm(FlaskForm):
     horario = SelectField("horario", choices=[("manha", "manha"),("tarde", "tarde")]) # manha, tarde
     nivel = SelectField("nivel", choices=[("Iniciante","Iniciante"),("Iniciado","Iniciado"),("Intermediario","Intermediario"),("Avancado I","Avancado I"),("Avancado II","Avancado II")]) #Iniciante, Iniciado, Intermediario, Avancado I, Avancado II
     sala = SelectField('sala', choices=[])
+    ciclo = SelectField('ciclo', choices=[], coerce=int)
     profSubmit = SubmitField("profSubmit")
 
 class ProfLogin(FlaskForm):

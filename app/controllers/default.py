@@ -70,6 +70,7 @@ def prof():
     if current_user.is_authenticated:
         form = ProfForm()
         form.sala.choices = [(s.nome, s.nome) for s in tables.Sala.query.all()]
+        form.ciclo.choices = [(s.id, s.nome) for s in tables.Ciclo.query.all()]
         if form.validate_on_submit():
             horario = form.horario.data
             if form.horario.data == "manhã":
@@ -77,7 +78,7 @@ def prof():
 
             dia = strToDate(form.data.data)
 
-            new_aula = tables.Aula(dia, horario, form.nivel.data, current_user.id, form.sala.data)
+            new_aula = tables.Aula(dia, horario, form.nivel.data, current_user.id, form.sala.data, form.ciclo.data)
 
             db.session.add(new_aula)
             db.session.commit()
