@@ -27,7 +27,7 @@
         {{ form.csrf_token }}
         <div class="form-row bootstrap-iso">
             <!-----  CAMPO INSTITUIÇÃO - SALA  ----->
-          <div class="col-md-4 mb-2">
+          <div class="col-md-2 mb-2">
             <label for="validationServer01">Instituição - Sala</label>
             {% if form.errors.sala %}
             {{ form.sala(class="form-control is-invalid", id="sala", type="text", placeholder="Sala") }}
@@ -74,6 +74,18 @@
             {{ form.data(class="form-control", id="date", type="text", placeholder="dd/mm/aaaa",  maxlength="10", OnKeyPress="formatar('##/##/####', this)") }}
             {% endif %}
           </div>
+          <div class="col-md-2 mb-2">
+              <label for="validationServer01">Ciclo</label>
+              {% if form.errors.ciclo %}
+                {{ form.ciclo(class="form-control is-invalid", id="horario", type="text", placeholder="Horário") }}
+                  <div class="invalid-feedback">
+                      Este campo é obrigatório!
+                  </div>
+              {% else %}
+                  {{ form.ciclo(class="form-control", id="horario", type="text", placeholder="Horário") }}
+              {% endif %}
+          </div>
+
         </div>
         <br>
         <div class="form-row">

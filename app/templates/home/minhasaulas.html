@@ -18,6 +18,13 @@
         <div class="card-body">
           <h5 class="card-title">{{ aula.sala }}</h5>
           <h6 class="card-subtitle mb-2 text-muted">{{ aula.nivel }} {{ aula.dia }}</h6>
+            <h6 class="card-subtitle mb-2 text-muted">
+                {% if aula.ciclo %}
+                    {{ ciclos[ ((aula.ciclo) - 1) ].nome }}
+                {% else %}
+                    Ciclo indefinido
+                {% endif %}
+            </h6>
           <p class="card-text" style="margin-bottom:2px;">Turno: {{ aula.horario }}</p>
           {% if aula.ativa %}
           <p class="card-text" style="martgin-top:0px;">Aula Aberta</p>

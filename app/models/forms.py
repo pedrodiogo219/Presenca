@@ -12,7 +12,8 @@ class ProfForm(FlaskForm):
     data = StringField("data", validators=[DataRequired(message="Campo Obrigatório!"), Length(min=10, max=10, message="Data invalida")])
     horario = SelectField("horario", choices=[("manha", "manha"),("tarde", "tarde")]) # manha, tarde
     nivel = SelectField("nivel", choices=[("Iniciante","Iniciante"),("Iniciado","Iniciado"),("Intermediario","Intermediario"),("Avancado I","Avancado I"),("Avancado II","Avancado II")]) #Iniciante, Iniciado, Intermediario, Avancado I, Avancado II
-    sala = SelectField('sala', choices=[("UFU - 001B", "UFU - 001B"), ("UFU - 002B","UFU - 002B"), ("Pitagoras - 001A", "Pitagoras - 001A")])
+    sala = SelectField('sala', choices=[])
+    ciclo = SelectField('ciclo', choices=[], coerce=int)
     profSubmit = SubmitField("profSubmit")
 
 class ProfLogin(FlaskForm):
