@@ -24,3 +24,14 @@ class ConsultaAulas(FlaskForm):
     email = StringField("email", validators=[Length(min=6, max=35), Optional()])
     id_uri = StringField("id_uri", validators=[Optional()])
     consultaSubmit = SubmitField("consultaSubmit")
+
+class CadForm(FlaskForm):
+    cpf = StringField("cpf", validators=[DataRequired(message="Campo Obrigatório!"), Length(min=14, max=14, message="CPF invalido")])
+    email = StringField("email", validators=[Length(min=6, max=35), DataRequired(message="Campo Obrigatório!")])
+    name = StringField("name", validators=[DataRequired(message="Campo Obrigatório!")])
+    tel = StringField("tel", validators=[DataRequired(message="Campo Obrigatório!"), Length(min=8, max=14, message="Telefone inválido")])
+    horario = SelectField("horario", choices=[("manha", "manha"),("tarde", "tarde")])
+    ID_URI = StringField("id_uri", validators=[DataRequired(message="Campo Obrigatório!")])
+    usrProf = StringField("usrProf", validators=[DataRequired(message="Campo Obrigatório!")])
+    psswdProf = PasswordField("psswd", validators=[DataRequired(message="Campo Obrigatório!")])
+    cadSubmit = SubmitField("cadSubmit")

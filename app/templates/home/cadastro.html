@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta>
+    {% block head %}
+    <title>Cadastro Aluno</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block body %}
+      <form class="needs-validation" action="" method="POST">
+        <h1>Cadastre-se aqui</h1>
+        <span class="thin">**Volte para a Página do Aluno <a href="index" class="ftLink">clicando aqui</a>.</span><br>
+        <span class="thin">***Ao preencher todos os campos, solicite a senha do instrutor da sua sala.</span>
+        <hr>
+          {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                  <div class="alert alert-purple">
+                      <ul class=flashes>
+                          {% for message in messages %}
+                              <li>{{ message }}</li>
+                          {% endfor %}
+                      </ul>
+                  </div>
+              {% endif %}
+          {% endwith %}
+        {{ form.csrf_token }}
+        <div class="form-row bootstrap-iso">
+          <div class="col-md-5 mb-2">
+            <label for="name">Nome</label>
+            {% if form.errors.name %}
+            {{ form.name(class="form-control is-invalid", id="name", placeholder="Ex.: Marcos Felipe") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.name(class="form-control", id="name", placeholder="Ex.: Marcos Felipe") }}
+            {% endif %}
+          </div>
+          <div class="col-md-2 mb-2">
+            <label for="cpf">ID URI</label>
+            {% if form.errors.ID_URI %}
+            {{ form.ID_URI(class="form-control is-invalid", id="ID_URI", maxlength="9", placeholder="_____") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.ID_URI(class="form-control", id="ID_URI", maxlength="9", placeholder="_____") }}
+            {% endif %}
+          </div>
+          <div class="col-md-5 mb-2">
+            <label for="cpf">E-mail</label>
+            {% if form.errors.email %}
+            {{ form.email(class="form-control is-invalid", id="email", placeholder="example@uberhub.com") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.email(class="form-control", id="email", placeholder="example@uberhub.com") }}
+            {% endif %}
+          </div>
+          <div class="col-md-4 mb-2">
+            <label for="cpf">CPF</label>
+            {% if form.errors.cpf %}
+            {{ form.cpf(class="form-control is-invalid", id="cpf", placeholder="___.___.___-__",  maxlength="14", OnKeyPress="formatar('###.###.###-##', this)") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.cpf(class="form-control", id="cpf", placeholder="___.___.___-__", maxlength="14", OnKeyPress="formatar('###.###.###-##', this)") }}
+            {% endif %}
+          </div>
+          <div class="col-md-4 mb-2">
+            <label for="cpf">Telefone</label>
+            {% if form.errors.tel %}
+            {{ form.tel(class="form-control is-invalid", id="tel", placeholder="__ _____-____",  maxlength="13", OnKeyPress="formatar('## #####-####', this)") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.tel(class="form-control", id="tel", placeholder="__ _____-____",  maxlength="13", OnKeyPress="formatar('## #####-####', this)") }}
+            {% endif %}
+          </div>
+          <div class="col-md-4 mb-2">
+              <label for="validationServer01">Horário</label>
+              {% if form.errors.horario %}
+                  {{ form.horario(class="form-control is-invalid", id="horario", type="text", placeholder="Horário") }}
+                  <div class="invalid-feedback">
+                      Este campo é obrigatório!
+                  </div>
+              {% else %}
+                  {{ form.horario(class="form-control", id="horario", type="text", placeholder="Horário") }}
+              {% endif %}
+          </div>
+
+        </div>
+        <br>
+        <div class="form-row">
+          <div class="col-md-3 mb">
+          </div>
+          <div class="col-md mb">
+            <div class="input-group mb-2">
+              {% if form.errors.usrProf %}
+                {{ form.usrProf(class="form-control is-invalid", id="usrProf", placeholder="Usuário do Instrutor", maxlength="20") }}
+              <div class="invalid-feedback">
+                Solicite o usuário do seu instrutor!
+              </div>
+              {% else %}
+                {{ form.usrProf(class="form-control", id="usrProf", placeholder="Usuário do Instrutor", maxlength="20") }}
+              {% endif %}
+              {% if form.errors.psswdProf %}
+                {{ form.psswdProf(class="form-control is-invalid", id="psswdProf", placeholder="Senha do Instrutor", maxlength="20") }}
+              <div class="invalid-feedback">
+                Solicite a senha do seu instrutor!
+              </div>
+              {% else %}
+                {{ form.psswdProf(class="form-control", id="psswdProf", placeholder="Senha do Instrutor", maxlength="20") }}
+              {% endif %}
+              <div class="input-group-append">
+                {{ form.cadSubmit(type="submit", id="cadastrar", class="btn", value="Cadastrar") }}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb">
+          </div>
+        </div>
+      </form>
+    {% endblock %}
+  </body>
+</html>

@@ -4,7 +4,7 @@ from app import app, db, lm, conn, session
 from sqlalchemy.sql import select, and_
 from sqlalchemy import exc
 
-from app.models.forms import PreForm, ProfForm, ProfLogin, ConsultaAulas
+from app.models.forms import PreForm, ProfForm, ProfLogin, ConsultaAulas, CadForm
 from app.models import tables
 
 from datetime import date
@@ -202,3 +202,41 @@ def consulta():
         return render_template('home/mostraAulas.html', aulas=result)
     else:
         return render_template('home/consultaAulas.html', form=form)
+
+@app.route("/cadastro", methods=["POST", "GET"])
+def cadastro():
+    form = CadForm()
+    if form.validate_on_submit():
+        cpf = ""
+        for letra in form.cpf.data:
+            if '9' >= letra >= '0':
+                cpf+=letra
+        tel = ""
+        for letra in form.tel.data:
+            if '9' >= letra >= '0':
+                tel+=letra
+
+        if request.method == "POST" and form.validate_on_submit():
+            user = tables.Professor.query.filter_by(apelido=form.usrProf.data).first()
+            if user:
+                if user.senha == form.psswdProf.data:
+                    new_aluno = tables.Aluno(cpf, form.email.data, form.name.data, tel, form.horario.data, form.ID_URI.data)
+
+                    db.session.add(new_aluno)
+                    db.session.commit()
+                    flash("Você foi cadastrado com sucesso, marque sua presença.")
+                    return redirect(url_for("index"))
+                else:
+                    flash("Senha incorreta.")
+            else:
+                flash("Usuário inválido.")
+    else:
+        if form.errors:
+            flash(form.errors)
+
+    return render_template('home/cadastro.html', form=form)
+
+@app.route("/material")
+def material():
+
+    return render_template('home/material.html')

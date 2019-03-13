@@ -13,6 +13,13 @@ class Aluno(db.Model):
     horario  = db.Column(db.String(5), CheckConstraint('horario IN ("manha", "tarde")'), nullable=False)
     ID_URI   = db.Column(db.String(5), unique=True)
 
+    def __init__(self, c, e, n, t, h, i):
+        self.cpf      = c
+        self.email    = e
+        self.nome     = n
+        self.telefone = t
+        self.horario  = h
+        self.ID_URI   = i
 
 class Professor(db.Model):
     __tablename__ = "professor"

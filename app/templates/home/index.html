@@ -11,7 +11,8 @@
     {% block body %}
       <form class="needs-validation" action="" method="POST">
         <h1>Presença</h1>
-        <span class="thin">**Um dos campos (e-mail ou ID Uri) deve ser preenchido.</span>
+        <span class="thin">**Um dos campos (e-mail ou ID Uri) deve ser preenchido.</span><br>
+        <span class="thin">***Acesse os <a href="material" class="ftLink">materiais disponíveis</a>.</span>
         <hr>
           {% with messages = get_flashed_messages() %}
               {% if messages %}
@@ -64,8 +65,9 @@
         <div class="form-row">
           <div class="col-md mb">
           </div>
-          <div class="col-md mb">
-            {{ form.preSubmit(type="submit", id="enviar", class="btn", value="Enviar") }}
+          <div class="col-md mb" style="text-align:right;">
+            {{ form.preSubmit(type="submit", id="enviar", class="btn", value="Marcar Presença") }}
+            <span class="thin">Caso não esteja cadastrado <a href="cadastro" class="ftLink">clique aqui</a>.</span>
           </div>
           <div class="col-md mb">
           </div>

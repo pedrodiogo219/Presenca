@@ -13,6 +13,17 @@ def shufflebg():
         return "bg3"
     return "bg"
 
+def shufflename():
+    x = randint(1, 5)
+    if x == 1:
+        return "Marcos Felipe"
+    if x == 2:
+        return "Augusto Moraes"
+    if x == 3:
+        return "Pedro Diogo"
+    if x == 4:
+        return "Aryanne Araujo"
+    return "Guilherme Tafelli"
 
 def strToDate(s):
     dia = s[0:2]
@@ -36,4 +47,3 @@ def trataCpf(cpf):
             r+=letra
 
     return r
-
