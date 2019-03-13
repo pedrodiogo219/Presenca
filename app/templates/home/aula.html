@@ -10,7 +10,18 @@
     {% block body %}
       <h1>Área do Professor</h1>
       <hr>
-        <p>Olá {{ current_user.apelido }}, clique <a href="minhasAulas" class="ftLink">aqui</a> para acessar suas aulas, ou crie uma aula no formulário abaixo.</p>
+      {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              <div class="alert alert-purple">
+                  <ul class=flashes>
+                      {% for message in messages %}
+                          <li>{{ message }}</li>
+                      {% endfor %}
+                  </ul>
+              </div>
+          {% endif %}
+      {% endwith %}
+      <p>Olá {{ current_user.apelido }}, clique <a href="minhasAulas" class="ftLink">aqui</a> para acessar suas aulas, ou crie uma aula no formulário abaixo.</p>
       <br>
       <form action="" method="POST">
         {{ form.csrf_token }}
