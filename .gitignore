@@ -214,6 +214,7 @@ pyvenv.cfg
 pip-selfcheck.json
 
 storage.db
+bancodedados.db
 
 # End of https://www.gitignore.io/api/venv,python,intellij
 
