@@ -94,8 +94,12 @@ def prof():
 
 @app.route("/minhasAulas")
 def minhasAulas():
-    aulas = tables.Aula.query.filter_by(id_prof=current_user.id)
-    return render_template('home/minhasaulas.html', aulas=aulas)
+    aulas = tables.Aula.query.filter_by(id_prof=current_user.id).order_by(tables.Aula.ciclo.desc(), tables.Aula.dia, tables.Aula.horario)
+    ciclos = tables.Ciclo.query.all()
+    for c in ciclos:
+        print(c.nome)
+    return render_template('home/minhasaulas.html', aulas=aulas, ciclos=ciclos)
+
 
 @app.route("/uberhub")
 def sobre():
@@ -209,6 +213,7 @@ def consulta():
                     )
                 )
             )
+        conn = engine.connect()
         result = conn.execute(query)
         return render_template('home/mostraAulas.html', aulas=result)
     else:
