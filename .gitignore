@@ -213,4 +213,11 @@ dmypy.json
 pyvenv.cfg
 pip-selfcheck.json
 
+storage.db
+
 # End of https://www.gitignore.io/api/venv,python,intellij
+
+
+
+
+
