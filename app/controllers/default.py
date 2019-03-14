@@ -47,6 +47,7 @@ def index():
                 id_aula = result['id']
                 new_presenca = tables.Presenca(id_aula, id_aluno)
                 db.session.add(new_presenca)
+                flash("Sua presença foi marcada com sucesso!")
                 try:
                     db.session.commit()
                 except exc.IntegrityError:
