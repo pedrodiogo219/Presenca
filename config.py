@@ -1,5 +1,3 @@
-import os.path
-
 DEBUG = True
 
 SQLALCHEMY_DATABASE_URI = 'mysql://admin:tstrt12@localhost/presenca'
