@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta>
+    {% block head %}
+    <title>Ver Professores</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block body %}
+    <h1>Cadastrar Professor</h1>
+    <span class="thin">**Volte para a área do gestor <a href="admin" class="ftLink">clicando aqui</a>.</span><br>
+    <hr>
+
+      {% if sala[0] %}
+      <table class="table table-hover table-sm">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Capacidade</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for p in sala %}
+          <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{ p.nome }}</td>
+            <td>{{ p.capacidade }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="alert alert-purple" role="alert">
+        Não foi encontrada nenhuma sala no seu banco de dados.
+      </div>
+      {% endif %}
+    {% endblock %}
+  </body>
+</html>

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta>
+    {% block head %}
+    <title>Cadastro de Instituição</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block body %}
+      <form class="needs-validation" action="" method="POST">
+        <h1>Cadastrar Instituição</h1>
+        <span class="thin">**Volte para a área do gestor <a href="admin" class="ftLink">clicando aqui</a>.</span><br>
+        <hr>
+          {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                  <div class="alert alert-purple">
+                      <ul class=flashes>
+                          {% for message in messages %}
+                              <li>{{ message }}</li>
+                          {% endfor %}
+                      </ul>
+                  </div>
+              {% endif %}
+          {% endwith %}
+        {{ form.csrf_token }}
+        <div class="form-row bootstrap-iso">
+          <div class="col-md-6 mb-2">
+            <label for="sala">Instituição - Sala</label>
+            {% if form.errors.sala %}
+            {{ form.sala(class="form-control is-invalid", id="sala", placeholder="Ex.: UFU - 1BLAB4") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.sala(class="form-control", id="sala", placeholder="Ex.: UFU - 1BLAB4") }}
+            {% endif %}
+          </div>
+          <div class="col-md-6 mb-2">
+            <label for="cpf">Capacidade</label>
+            {% if form.errors.capacidade %}
+            {{ form.capacidade(class="form-control is-invalid", id="capacidade", placeholder="Capacidade") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.capacidade(class="form-control", id="capacidade", placeholder="Capacidade") }}
+            {% endif %}
+          </div>
+        <br>
+          <div class="col-md mb">
+          </div>
+          <div class="col-md mb" style="color:white; margin-top:15px;">
+            {{ form.instCadSubmit(type="submit", id="enviar", class="btn", value="Cadastrar") }}
+          </div>
+          <div class="col-md mb">
+          </div>
+        </div>
+      </form>
+    {% endblock %}
+  </body>
+</html>

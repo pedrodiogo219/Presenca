@@ -44,7 +44,15 @@
                 <li>
                     <a href="{{ url_for('material') }}" class="">Materiais</a>
                 </li>
-                {% if current_user.is_authenticated %}
+                {% if current_user.is_admin %}
+                <li>
+                    <a href="{{ url_for('admin') }}" class="">Área do Gestor</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('consulta') }}" class="">Consultar Presenças</a>
+                </li>
+                {% endif %}
+                {% if current_user.is_authenticated and current_user.is_admin == 0 %}
                 <li>
                     <a href="{{ url_for('prof') }}" class="">Criar Aula</a>
                 </li>
@@ -54,17 +62,15 @@
                 <li>
                     <a href="{{ url_for('consulta') }}" class="">Consultar Presenças</a>
                 </li>
-                {% else %}
+                {% endif %}
+                {% if current_user.is_anonymous %}
+                <li>
+                    <a href="{{ url_for('login') }}" class="">Fazer Login</a>
+                </li>
                 <li>
                     <a href="{{ url_for('consulta') }}" class="">Consultar Presenças</a>
                 </li>
-                <li>
-                    <a href="{{ url_for('login') }}" class="">Entrar como Professor</a>
-                </li>
                 {% endif %}
-                <li>
-                    <a href="{{ url_for('sobre') }}" class="">Sobre o Uberhub</a>
-                </li>
                 {% if current_user.is_authenticated %}
                 <li>
                     <a href="{{ url_for('logout') }}" class="">Sair</a>

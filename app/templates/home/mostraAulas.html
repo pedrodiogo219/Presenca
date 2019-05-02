@@ -4,6 +4,9 @@
 {% endblock %}
 {% block body %}
     <ul>
+      <h1>Aulas que compareci</h1>
+      <span class="thin">*Sua presença só aparecerá aqui após o instrutor fechar a aula.</span><br>
+      <span class="thin">**<a class="ftLink" href="index">Clique aqui</a> para voltar para o inicio.</span><hr>
         {% for aula in aulas %}
             <li>{{ dateToStr(aula[0]) }} - {{ aula.nivel }} - {{ aula.apelido }}</li>
         {% endfor %}

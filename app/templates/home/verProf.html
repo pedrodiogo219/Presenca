@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta>
+    {% block head %}
+    <title>Ver Professores</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block body %}
+    <h1>Ver Professores</h1>
+    <span class="thin">**Volte para a área do gestor <a href="admin" class="ftLink">clicando aqui</a>.</span><br>
+    <hr>
+
+      {% if professor[0] %}
+      <table class="table table-hover table-sm">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">id</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Apelido</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">CPF</th>
+            <th scope="col">Banco</th>
+            <th scope="col">Agência</th>
+            <th scope="col">Conta</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for p in professor %}
+          <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{ p.id }}</td>
+            <td>{{ p.nome }}</td>
+            <td>{{ p.apelido }}</td>
+            <td>{{ p.email }}</td>
+            <td>{{ p.cpf }}</td>
+            <td>{{ p.bank_code }}</td>
+            <td>{{ p.bank_ag }}</td>
+            <td>{{ p.bank_cc }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="alert alert-purple" role="alert">
+        Não foi encontrado nenhum professor no seu banco de dados.
+      </div>
+      {% endif %}
+    {% endblock %}
+  </body>
+</html>

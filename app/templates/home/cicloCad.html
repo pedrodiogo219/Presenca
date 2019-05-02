@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta>
+    {% block head %}
+    <title>Novo Ciclo</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block body %}
+      <form class="needs-validation" action="" method="POST">
+        <h1>Cadastrar Instituição</h1>
+        <span class="thin">**Volte para a área do gestor <a href="admin" class="ftLink">clicando aqui</a>.</span><br>
+        <hr><br><br>
+          {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                  <div class="alert alert-purple">
+                      <ul class=flashes>
+                          {% for message in messages %}
+                              <li>{{ message }}</li>
+                          {% endfor %}
+                      </ul>
+                  </div>
+              {% endif %}
+          {% endwith %}
+        {{ form.csrf_token }}
+        <div class="form-row bootstrap-iso">
+          <div class="col-md-4 mb-2">
+            <label for="nome">Nome do Ciclo</label>
+            {% if form.errors.nome %}
+            {{ form.nome(class="form-control is-invalid", id="nome", placeholder="Ex.: 1ro Ciclo") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.nome(class="form-control", id="nome", placeholder="Ex.: 1ro Ciclo") }}
+            {% endif %}
+          </div>
+          <div class="col-md-3 mb-2">
+            <label for="validationServer01">Data de Inicio</label>
+            {% if form.errors.inicio %}
+            {{ form.inicio(class="form-control is-invalid", id="date", type="text", placeholder="dd/mm/aaaa",  maxlength="10", OnKeyPress="formatar('##/##/####', this)") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.inicio(class="form-control", id="date", type="text", placeholder="dd/mm/aaaa",  maxlength="10", OnKeyPress="formatar('##/##/####', this)") }}
+            {% endif %}
+          </div>
+          <div class="col-md-3 mb-2">
+            <label for="validationServer01">Data de Final</label>
+            {% if form.errors.fim %}
+            {{ form.fim(class="form-control is-invalid", id="date", type="text", placeholder="dd/mm/aaaa",  maxlength="10", OnKeyPress="formatar('##/##/####', this)") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.fim(class="form-control", id="date", type="text", placeholder="dd/mm/aaaa",  maxlength="10", OnKeyPress="formatar('##/##/####', this)") }}
+            {% endif %}
+          </div>
+        <br>
+          <div class="col-md mb">
+          </div>
+          <div class="col-md mb" style="color:white; margin-top:15px;">
+            {{ form.cicloCadSubmit(type="submit", id="enviar", class="btn", value="Cadastrar") }}
+          </div>
+          <div class="col-md mb">
+          </div>
+        </div>
+      </form>
+    {% endblock %}
+  </body>
+</html>

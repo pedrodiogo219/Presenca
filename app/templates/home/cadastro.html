@@ -10,9 +10,13 @@
   <body>
     {% block body %}
       <form class="needs-validation" action="" method="POST">
-        <h1>Cadastre-se aqui</h1>
+        <h1>Cadastro do Aluno</h1>
+        {% if current_user.is_admin %}
+        <span class="thin">**Volte para a área do gestor <a href="admin" class="ftLink">clicando aqui</a>.</span>
+        {% else %}
         <span class="thin">**Volte para a Página do Aluno <a href="index" class="ftLink">clicando aqui</a>.</span><br>
         <span class="thin">***Ao preencher todos os campos, solicite a senha do instrutor da sua sala.</span>
+        {% endif %}
         <hr>
           {% with messages = get_flashed_messages() %}
               {% if messages %}
@@ -71,7 +75,7 @@
             {{ form.cpf(class="form-control", id="cpf", placeholder="___.___.___-__", maxlength="14", OnKeyPress="formatar('###.###.###-##', this)") }}
             {% endif %}
           </div>
-          <div class="col-md-4 mb-2">
+          <div class="col-md-3 mb-2">
             <label for="cpf">Telefone</label>
             {% if form.errors.tel %}
             {{ form.tel(class="form-control is-invalid", id="tel", placeholder="__ _____-____",  maxlength="13", OnKeyPress="formatar('## #####-####', this)") }}
@@ -82,7 +86,18 @@
             {{ form.tel(class="form-control", id="tel", placeholder="__ _____-____",  maxlength="13", OnKeyPress="formatar('## #####-####', this)") }}
             {% endif %}
           </div>
-          <div class="col-md-4 mb-2">
+          <div class="col-md-3 mb-2">
+              <label for="validationServer01">Nível do Aluno</label>
+              {% if form.errors.nivel %}
+                  {{ form.nivel(class="form-control is-invalid", id="nivel", placeholder="Nível do Aluno") }}
+                  <div class="invalid-feedback">
+                      Este campo é obrigatório!
+                  </div>
+              {% else %}
+                  {{ form.nivel(class="form-control", id="nivel", placeholder="Nível do Aluno") }}
+              {% endif %}
+          </div>
+          <div class="col-md-2 mb-2">
               <label for="validationServer01">Horário</label>
               {% if form.errors.horario %}
                   {{ form.horario(class="form-control is-invalid", id="horario", type="text", placeholder="Horário") }}
@@ -93,9 +108,65 @@
                   {{ form.horario(class="form-control", id="horario", type="text", placeholder="Horário") }}
               {% endif %}
           </div>
+          <div class="col-md-2 mb-2">
+              <label for="validationServer01">Ciclo</label>
+              {% if form.errors.ciclo %}
+                  {{ form.ciclo(class="form-control is-invalid", id="ciclo", placeholder="Ciclo") }}
+                  <div class="invalid-feedback">
+                      Este campo é obrigatório!
+                  </div>
+              {% else %}
+                  {{ form.ciclo(class="form-control", id="ciclo", placeholder="Ciclo") }}
+              {% endif %}
+          </div>
+          <div class="col-md-4 mb-2">
+              <label for="validationServer01">Instituição de Preferência</label>
+              {% if form.errors.pref %}
+                  {{ form.pref(class="form-control is-invalid", id="pref", placeholder="Ex: UFU") }}
+                  <div class="invalid-feedback">
+                      Este campo é obrigatório!
+                  </div>
+              {% else %}
+                  {{ form.pref(class="form-control", id="pref", placeholder="Ex: UFU") }}
+              {% endif %}
+          </div>
+          <div class="col-md-4 mb-2">
+              <label for="validationServer01">Bairro</label>
+              {% if form.errors.bairro %}
+                  {{ form.bairro(class="form-control is-invalid", id="bairro", placeholder="Ex: Sta. Mônica") }}
+                  <div class="invalid-feedback">
+                      Este campo é obrigatório!
+                  </div>
+              {% else %}
+                  {{ form.bairro(class="form-control is-invalid", id="bairro", placeholder="Ex: Sta. Mônica") }}
+              {% endif %}
+          </div>
+          <div class="col-md-2 mb-2">
+              <label for="validationServer01">Idade</label>
+              {% if form.errors.idade %}
+                  {{ form.idade(class="form-control is-invalid", id="idade", placeholder="Idade do Aluno") }}
+                  <div class="invalid-feedback">
+                      Este campo é obrigatório!
+                  </div>
+              {% else %}
+                  {{ form.idade(class="form-control", id="idade", placeholder="Idade do Aluno") }}
+              {% endif %}
+          </div>
 
         </div>
         <br>
+        {% if current_user.is_admin %}
+        <div class="form-row">
+          <div class="col-md mb">
+          </div>
+          <div class="col-md mb" style="text-align:right;">
+            {{ form.cadSubmit(type="submit", id="enviar", class="btn", value="Cadastrar") }}
+            <span class="thin">Ou cadastrar com um arquivo <a href="" class="ftLink">clicando aqui</a>.</span>
+          </div>
+          <div class="col-md mb">
+          </div>
+        </div>
+        {% else %}
         <div class="form-row">
           <div class="col-md-3 mb">
           </div>
@@ -125,6 +196,7 @@
           <div class="col-md-3 mb">
           </div>
         </div>
+        {% endif %}
       </form>
     {% endblock %}
   </body>

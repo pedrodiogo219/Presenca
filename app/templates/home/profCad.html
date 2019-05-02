@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta>
+    {% block head %}
+    <title>Cadastro Professor</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block body %}
+      <form class="needs-validation" action="" method="POST">
+        <h1>Cadastrar Professor</h1>
+        <span class="thin">**Volte para a área do gestor <a href="admin" class="ftLink">clicando aqui</a>.</span><br>
+        <hr>
+          {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                  <div class="alert alert-purple">
+                      <ul class=flashes>
+                          {% for message in messages %}
+                              <li>{{ message }}</li>
+                          {% endfor %}
+                      </ul>
+                  </div>
+              {% endif %}
+          {% endwith %}
+        {{ form.csrf_token }}
+        <div class="form-row bootstrap-iso">
+          <div class="col-md-5 mb-2">
+            <label for="name">Nome</label>
+            {% if form.errors.name %}
+            {{ form.name(class="form-control is-invalid", id="name", placeholder="Ex.: Sofhia de Souza") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.name(class="form-control", id="name", placeholder="Ex.: Sofhia de Souza") }}
+            {% endif %}
+          </div>
+          <div class="col-md-2 mb-2">
+            <label for="cpf">ID URI</label>
+            {% if form.errors.ID_URI %}
+            {{ form.ID_URI(class="form-control is-invalid", id="ID_URI", maxlength="9", placeholder="_____") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.ID_URI(class="form-control", id="ID_URI", maxlength="9", placeholder="_____") }}
+            {% endif %}
+          </div>
+          <div class="col-md-5 mb-2">
+            <label for="cpf">E-mail</label>
+            {% if form.errors.email %}
+            {{ form.email(class="form-control is-invalid", id="email", placeholder="example@uberhub.com") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.email(class="form-control", id="email", placeholder="example@uberhub.com") }}
+            {% endif %}
+          </div>
+          <div class="col-md-3 mb-2">
+            <label for="bank_code">Banco</label>
+            {% if form.errors.bank_code %}
+            {{ form.bank_code(class="form-control is-invalid", id="bank_code", placeholder="Ex: Next - 237",  maxlength="40") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.bank_code(class="form-control", id="bank_code", placeholder="Ex: Next - 237",  maxlength="3") }}
+            {% endif %}
+          </div>
+          <div class="col-md-4 mb-2">
+            <label for="bank_code">Agência Bancária</label>
+            {% if form.errors.bank_ag %}
+            {{ form.bank_ag(class="form-control is-invalid", id="bank_ag", placeholder="Ex: 1234-5",  maxlength="7") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.bank_ag(class="form-control", id="bank_ag", placeholder="Ex: 1234-5",  maxlength="7") }}
+            {% endif %}
+          </div>
+          <div class="col-md-5 mb-2">
+            <label for="bank_code">Conta Bancária</label>
+            {% if form.errors.bank_cc %}
+            {{ form.bank_cc(class="form-control is-invalid", id="bank_cc", placeholder="Ex: 123456-7",  maxlength="15") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.bank_cc(class="form-control", id="bank_cc", placeholder="Ex: 123456-7",  maxlength="15") }}
+            {% endif %}
+          </div>
+          <div class="col-md-6 mb-2">
+            <label for="cpf">CPF</label>
+            {% if form.errors.cpf %}
+            {{ form.cpf(class="form-control is-invalid", id="cpf", placeholder="___.___.___-__",  maxlength="14", OnKeyPress="formatar('###.###.###-##', this)") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.cpf(class="form-control", id="cpf", placeholder="___.___.___-__", maxlength="14", OnKeyPress="formatar('###.###.###-##', this)") }}
+            {% endif %}
+          </div>
+          <div class="col-md-6 mb-2">
+            <label for="tel">Telefone</label>
+            {% if form.errors.tel %}
+            {{ form.tel(class="form-control is-invalid", id="tel", placeholder="__ _____-____",  maxlength="13", OnKeyPress="formatar('## #####-####', this)") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.tel(class="form-control", id="tel", placeholder="__ _____-____",  maxlength="13", OnKeyPress="formatar('## #####-####', this)") }}
+            {% endif %}
+          </div>
+          <div class="col-md-4 mb-2">
+            <label for="apelido">Usuário</label>
+            {% if form.errors.apelido %}
+            {{ form.apelido(class="form-control is-invalid", id="apelido", placeholder="Apelido") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.apelido(class="form-control", id="apelido", placeholder="Apelido") }}
+            {% endif %}
+          </div>
+          <div class="col-md-4 mb-2">
+            <label for="psswd">Senha</label>
+            {% if form.errors.psswdProf %}
+            {{ form.psswdProf(class="form-control is-invalid", id="psswd", placeholder="Senha") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.psswdProf(class="form-control", id="psswd", placeholder="Senha") }}
+            {% endif %}
+          </div>
+          <div class="col-md-4 mb-2">
+            <label for="psswdCheck">Confirmar Senha</label>
+            {% if form.errors.psswdProfCheck %}
+            {{ form.psswdProfCheck(class="form-control is-invalid", id="psswdCheck", placeholder="Confirmar Senha") }}
+            <div class="invalid-feedback">
+              Este campo é obrigatorio!
+            </div>
+            {% else %}
+            {{ form.psswdProfCheck(class="form-control", id="psswdCheck", placeholder="Confirmar Senha") }}
+            {% endif %}
+          </div>
+        </div>
+        <br>
+        <div class="form-row">
+          <div class="col-md mb">
+          </div>
+          <div class="col-md mb">
+            {{ form.profCadSubmit(type="submit", id="enviar", class="btn", value="Cadastrar") }}
+          </div>
+          <div class="col-md mb">
+          </div>
+        </div>
+      </form>
+    {% endblock %}
+  </body>
+</html>

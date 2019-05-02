@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta>
+    {% block head %}
+    <title>Aviso</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block body %}
+    <h2>Ops, algo de errado não está certo</h2><hr>
+          {% with messages = get_flashed_messages() %}
+              {% if messages %}
+              <div class="alert alert-purple">
+                  <ul class=flashes>
+                      {% for message in messages %}
+                          <li>{{ message }}</li>
+                      {% endfor %}
+                  </ul>
+              </div>
+              {% else %}
+              <div class="alert alert-purple">
+                  <ul class=flashes>
+                          <li>Não conseguimos identificar seu problema. Por favor, tente novamente mais tarde!</li>
+                  </ul>
+              </div>
+              {% endif %}
+          {% endwith %}
+          <div class="col-md mb" style="text-align:right;">
+            <span class="thin"><a href="index" class="ftLink">Voltar para o inicio</a></span>
+          </div>
+    {% endblock %}
+  </body>
+</html>

@@ -1,12 +1,17 @@
 {% extends 'base.html' %}
 {% block head %}
-  <title>Minhas Aulas</title>
+  <title>Aulas do {{prof}}</title>
 {% endblock %}
 {% block body %}
-<h1>Aulas do {{current_user.apelido}}</h1>
+<h1>Aulas do {{ prof }}</h1>
 <hr>
-<p>Olá {{ current_user.apelido }}, clique <a href="prof" class="ftLink">aqui</a> para criar uma nova aula.</p>
+{% if current_user.is_admin %}
+<p>Olá {{ current_user.nome }}, essas são as aulas do {{ prof }}.</p>
+{% else %}
+<p>Olá {{ current_user.nome }}, <a href="prof" class="ftLink">clique aqui</a> para criar uma nova aula.</p>
+{% endif %}
 <br>
+{% if aulas[0] %}
 <div class="row container">
   {% for aula in aulas %}
     <div class="col-sm-3" style="margin-bottom: 10px;">
@@ -38,4 +43,13 @@
     </div>
   {% endfor %}
 </div>
+{% else %}
+<div class="alert alert-purple" role="alert">
+  {% if current_user.is_admin %}
+  Ei {{ current_user.apelido }}, parece que o {{ prof }} não criou nenhuma aula ainda.
+  {% else %}
+  Ei {{ current_user.apelido }}, parece que você não criou nenhuma aula ainda.
+  {% endif %}
+</div>
+{% endif %}
 {% endblock %}

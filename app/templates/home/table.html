@@ -73,9 +73,9 @@
       {% else %}
       <div class="alert alert-purple" role="alert">
         {% if aula.ativa %}
-        Ei {{ current_user.apelido }}, parece que nenhum aluno se cadastrou na sua aula ainda.
+        Ei {{ current_user.apelido }}, parece que nenhum aluno se cadastrou nessa aula ainda.
         {% else %}
-        Você precisa abrir a aula para que os alunos possam se cadastrar.
+        A aula precisa estar aberta para que os alunos possam se cadastrar.
         {% endif %}
       </div>
         {% if aula.ativa %}

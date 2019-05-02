@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Visão Geral</title>
+{% endblock %}
+{% block body %}
+<h1>Área do Gestor</h1>
+<span class="thin">**Olá {{ current_user.nome }}, bem vindo(a) à área do gestor. Seguem algumas funções:</span><br><hr>
+<div class="container">
+  <div class="form-row" style="text-align:center;">
+    <div class="col-md-7 mb-2">
+      <div class="list-group">
+        <a href="verAulas" class="list-group-item list-group-item-action">Ver Aulas</a>
+      </div>
+    </div>
+    <div class="col-md-5 mb-2">
+      <div class="list-group">
+        <a href="profCad" class="list-group-item list-group-item-action">Cadastrar Professor</a>
+      </div>
+    </div>
+    <div class="col-md-5 mb-2">
+      <div class="list-group">
+        <span href="#" class="list-group-item list-group-item-action list-group-item-light">Solicitações Pendentes</span>
+      </div>
+    </div>
+    <div class="col-md-7 mb-2">
+      <div class="list-group">
+        <a href="instCad" class="list-group-item list-group-item-action" disabled>Cadastrar Instituição</a>
+      </div>
+    </div>
+    <div class="col-md-7 mb-2">
+      <div class="list-group">
+        <a href="verSalas" class="list-group-item list-group-item-action">Ver Salas/Instituições Cadastradas</a>
+      </div>
+    </div>
+    <div class="col-md-5 mb-2">
+      <div class="list-group">
+        <a href="verProf" class="list-group-item list-group-item-action">Ver Professores Cadastrados</a>
+      </div>
+    </div>
+    <div class="col-md-5 mb-2">
+      <div class="list-group">
+        <a href="cadastro" class="list-group-item list-group-item-action">Cadastrar Alunos</a>
+      </div>
+    </div>
+    <div class="col-md-7 mb-2">
+      <div class="list-group">
+        <a href="verAlunos" class="list-group-item list-group-item-action">Ver Alunos Cadastrados</a>
+      </div>
+    </div>
+    <div class="col-md-12 mb-2">
+      <div class="list-group">
+        <a href="cicloCad" class="list-group-item list-group-item-action" disabled>Abrir Novo Ciclo</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

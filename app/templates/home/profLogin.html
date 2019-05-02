@@ -9,6 +9,7 @@
     {% block body %}
         <form action="" method="POST">
         <h1>Fazer Login</h1>
+        <span class="thin">**Atenção: Você só precisa logar caso seja Professor ou Administrador. Em outro caso, o Login não se faz necessário.</span>
         <hr>
             {% with messages = get_flashed_messages() %}
                 {% if messages %}

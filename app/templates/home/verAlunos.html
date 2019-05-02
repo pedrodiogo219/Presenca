@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta>
+    {% block head %}
+    <title>Ver Alunos</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block body %}
+    <h1>Ver Alunos Cadastrados</h1>
+    <span class="thin">**Volte para a área do gestor <a href="admin" class="ftLink">clicando aqui</a>.</span><br>
+    <hr>
+
+      {% if aluno[0] %}
+      <table class="table table-hover table-sm">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nome</th>
+            <th scope="col">E-mail</th>
+
+            <th scope="col">ID URI</th>
+            <th scope="col">Bairro</th>
+            <th scope="col">Instituição</th>
+            <th scope="col">Horario</th>
+            <th scope="col">Nível</th>
+            <th scope="col">Idade</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for p in aluno %}
+          <tr>
+            <td><b>{{ p.id }}</b></td>
+            <td>{{ p.nome }}</td>
+            <td>{{ p.email }}</td>
+
+            <td>{{ p.ID_URI }}</td>
+            <td>{{ p.bairro }}</td>
+            <td>{{ p.pref }}</td>
+            <td>{{ p.horario }}</td>
+            <td>{{ p.nivel }}</td>
+            <td>{{ p.idade }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="alert alert-purple" role="alert">
+        Não foi encontrado nenhum aluno no seu banco de dados.<br> **<a href="cadastro" class="ftLink">Clique aqui</a> para cadastrar alunos.
+      </div>
+      {% endif %}
+    {% endblock %}
+  </body>
+</html>

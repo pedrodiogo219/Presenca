@@ -5,7 +5,7 @@ from sqlalchemy.sql import select, and_
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import exc
 
-from app.models.forms import PreForm, ProfForm, ProfLogin, ConsultaAulas, CadForm
+from app.models.forms import PreForm, ProfForm, ProfLogin, ConsultaAulas, CadForm, ProfCadForm, InstCadForm, CicloCadForm
 from app.models import tables
 
 from datetime import date
@@ -16,7 +16,7 @@ from app.controllers.functions import strToDate, trataCpf, dateToStr
 def index():
 
     form = PreForm()
-    form.prof.choices = [(p.apelido, p.apelido) for p in tables.Professor.query.all()]
+    form.prof.choices = [(p.nome, p.nome) for p in tables.Professor.query.all()]
 
     if request.method == "POST" and form.validate_on_submit():
         if form.id_uri.data:
@@ -94,13 +94,26 @@ def prof():
         return redirect(url_for("login"))
 
 @app.route("/minhasAulas")
-def minhasAulas():
-    aulas = tables.Aula.query.filter_by(id_prof=current_user.id).order_by(tables.Aula.ciclo.desc(), tables.Aula.dia, tables.Aula.horario)
-    ciclos = tables.Ciclo.query.all()
-    for c in ciclos:
-        print(c.nome)
-    return render_template('home/minhasaulas.html', aulas=aulas, ciclos=ciclos)
-
+@app.route("/minhasAulas/<id_professor>")
+def minhasAulas(id_professor=None):
+    if current_user.is_authenticated:
+        if current_user.is_admin:
+            prof = tables.Professor.query.filter_by(id=id_professor).order_by(tables.Professor.nome.desc()).first().nome
+            #print(prof)
+            aulas = tables.Aula.query.filter_by(id_prof=id_professor).order_by(tables.Aula.ciclo.desc(), tables.Aula.dia, tables.Aula.horario)
+            ciclos = tables.Ciclo.query.all()
+            for c in ciclos:
+                print(c.nome)
+            return render_template('home/minhasaulas.html', aulas=aulas, ciclos=ciclos, prof=prof)
+        else:
+            prof = tables.Professor.query.filter_by(id=current_user.id).order_by(tables.Professor.nome.desc()).first().nome
+            aulas = tables.Aula.query.filter_by(id_prof=current_user.id).order_by(tables.Aula.ciclo.desc(), tables.Aula.dia, tables.Aula.horario)
+            ciclos = tables.Ciclo.query.all()
+            for c in ciclos:
+                print(c.nome)
+            return render_template('home/minhasaulas.html', aulas=aulas, ciclos=ciclos, prof=prof)
+    else:
+        return redirect(url_for("login"))
 
 @app.route("/uberhub")
 def sobre():
@@ -110,9 +123,13 @@ def sobre():
 @app.route("/lista/<id_aula>")
 def lista(id_aula=None):
     if current_user.is_authenticated:
+        if current_user.is_admin:
+            if id_aula == None:
+                id_aula = tables.Aula.query.filter_by(id_prof=current_user.id).order_by(tables.Aula.id.desc()).first().id
 
-        if id_aula == None:
-            id_aula = tables.Aula.query.filter_by(id_prof=current_user.id).order_by(tables.Aula.id.desc()).first().id
+        else:
+            if id_aula == None:
+                id_aula = tables.Aula.query.filter_by(id_prof=current_user.id).order_by(tables.Aula.id.desc()).first().id
 
 
         aula = tables.Aula.query.filter_by(id=id_aula).first()
@@ -155,12 +172,17 @@ def load_user(id):
 @app.route("/login", methods=["POST", "GET"])
 def login():
     form = ProfLogin()
+    if current_user.is_authenticated:
+        flash("Ops, parace que você já está logado !!")
+        return redirect(url_for("warning"))
+
     if request.method == "POST" and form.validate_on_submit():
         user = tables.Professor.query.filter_by(apelido=form.user.data).first()
         if user:
             if user.senha == form.psswd.data:
                 login_user(user)
-                flash("Você logou com sucesso.")
+                if current_user.is_admin:
+                    return redirect(url_for("admin"))
                 return redirect(url_for("prof"))
             else:
                 flash("Sua senha está incorreta.")
@@ -223,6 +245,8 @@ def consulta():
 @app.route("/cadastro", methods=["POST", "GET"])
 def cadastro():
     form = CadForm()
+    form.ciclo.choices = [(p.nome, p.nome) for p in tables.Ciclo.query.all()]
+
     if form.validate_on_submit():
         cpf = ""
         for letra in form.cpf.data:
@@ -233,20 +257,46 @@ def cadastro():
             if '9' >= letra >= '0':
                 tel+=letra
 
-        if request.method == "POST" and form.validate_on_submit():
-            user = tables.Professor.query.filter_by(apelido=form.usrProf.data).first()
-            if user:
-                if user.senha == form.psswdProf.data:
-                    new_aluno = tables.Aluno(cpf, form.email.data, form.name.data, tel, form.horario.data, form.ID_URI.data)
+        if current_user.is_authenticated:
+            if current_user.is_admin:
+                if request.method == "POST" and form.validate_on_submit():
+                    new_aluno = tables.Aluno(cpf, form.email.data, form.name.data, tel, form.horario.data, form.ID_URI.data, form.ciclo.data, form.nivel.data, form.pref.data, form.bairro.data, form.idade.data)
 
                     db.session.add(new_aluno)
                     db.session.commit()
-                    flash("Você foi cadastrado com sucesso, marque sua presença.")
-                    return redirect(url_for("index"))
-                else:
-                    flash("Senha incorreta.")
+                    flash("Aluno Cadastrado com Sucesso.")
+                    return redirect(url_for("cadastro"))
             else:
-                flash("Usuário inválido.")
+                if request.method == "POST" and form.validate_on_submit():
+                    user = tables.Professor.query.filter_by(apelido=form.usrProf.data).first()
+                    if user:
+                        if user.senha == form.psswdProf.data:
+                            new_aluno = tables.Aluno(cpf, form.email.data, form.name.data, tel, form.horario.data, form.ID_URI.data, form.ciclo.data, form.nivel.data, form.pref.data, form.bairro.data, form.idade.data)
+
+                            db.session.add(new_aluno)
+                            db.session.commit()
+                            flash("Você foi cadastrado com sucesso, marque sua presença.")
+                            return redirect(url_for("index"))
+                        else:
+                            flash("Senha incorreta.")
+                    else:
+                        flash("Usuário inválido.")
+
+        else:
+            if request.method == "POST" and form.validate_on_submit():
+                user = tables.Professor.query.filter_by(apelido=form.usrProf.data).first()
+                if user:
+                    if user.senha == form.psswdProf.data:
+                        new_aluno = tables.Aluno(cpf, form.email.data, form.name.data, tel, form.horario.data, form.ID_URI.data, form.ciclo.data, form.nivel.data, form.pref.data, form.bairro.data, form.idade.data)
+
+                        db.session.add(new_aluno)
+                        db.session.commit()
+                        flash("Você foi cadastrado com sucesso, marque sua presença.")
+                        return redirect(url_for("index"))
+                    else:
+                        flash("Senha incorreta.")
+                else:
+                    flash("Usuário inválido.")
     else:
         if form.errors:
             flash(form.errors)
@@ -255,5 +305,149 @@ def cadastro():
 
 @app.route("/material")
 def material():
-
     return render_template('home/material.html')
+
+@app.route("/admin", methods=["POST", "GET"])
+@app.route("/adm", methods=["POST", "GET"])
+@app.route("/overview", methods=["POST", "GET"])
+@app.route("/geral", methods=["POST", "GET"])
+def admin():
+    if current_user.is_authenticated:
+        if current_user.is_admin:
+            return render_template('home/geral.html')
+        else:
+            flash("Olá professor, sinto em te dizer que essa área é restrita. Acesse uma conta de administrador se quiser continuar.")
+            return redirect(url_for("warning"))
+    else:
+        flash("Muito sinto, jovem Padawan... Restrita a grandes mestres Jedis essa página é. ")
+        return redirect(url_for("warning"))
+
+@app.route('/warning', methods=['POST', 'GET'])
+def warning():
+    return render_template('home/warning.html')
+
+@app.route("/profCad", methods=["POST", "GET"])
+def profCad():
+    form = ProfCadForm()
+    if current_user.is_admin:
+        if form.validate_on_submit():
+            cpf = ""
+            for letra in form.cpf.data:
+                if '9' >= letra >= '0':
+                    cpf+=letra
+            tel = ""
+            for letra in form.tel.data:
+                if '9' >= letra >= '0':
+                    tel+=letra
+
+            if request.method == "POST" and form.validate_on_submit():
+                if form.psswdProf.data == form.psswdProfCheck.data:
+                    new_prof = tables.Professor(cpf, form.apelido.data, form.email.data, form.name.data, tel, form.ID_URI.data, form.bank_code.data, form.bank_ag.data, form.bank_cc.data, form.psswdProf.data)
+
+                    db.session.add(new_prof)
+                    db.session.commit()
+                    flash("Professor cadastrado com sucesso.")
+
+                    return redirect(url_for("profCad"))
+                else:
+                    flash("Senhas não coincidem")
+
+        else:
+            if form.errors:
+                flash(form.errors)
+
+        return render_template('home/profCad.html', form=form)
+    else:
+        flash("A área que você tentou acessar é restrita.")
+        return redirect(url_for("warning"))
+
+@app.route("/verAulas", methods=["POST", "GET"])
+def verAulas(id_professor = None):
+    if current_user.is_admin:
+        query = select([tables.Professor.nome, tables.Professor.apelido, tables.Professor.id, tables.Professor.ID_URI])
+
+        conn = engine.connect()
+        result = conn.execute(query)
+        return render_template('home/verAulas.html', professores = result)
+    else:
+        flash("A área que você tentou acessar é restrita.")
+        return redirect(url_for("warning"))
+
+@app.route("/instCad", methods=["POST", "GET"])
+def instCad():
+    form = InstCadForm()
+    if current_user.is_admin:
+        if form.validate_on_submit():
+            if request.method == "POST" and form.validate_on_submit():
+                new_sala = tables.Sala(form.sala.data, form.capacidade.data, )
+                db.session.add(new_sala)
+                db.session.commit()
+                flash("Instituição cadastrada com sucesso.")
+
+                return redirect(url_for("instCad"))
+
+        else:
+            if form.errors:
+                flash(form.errors)
+
+        return render_template('home/instCad.html', form=form)
+    else:
+        flash("A área que você tentou acessar é restrita.")
+        return redirect(url_for("warning"))
+
+@app.route("/cicloCad", methods=["POST", "GET"])
+def cicloCad():
+    form = CicloCadForm()
+    if current_user.is_admin:
+        if form.validate_on_submit():
+            if request.method == "POST" and form.validate_on_submit():
+                inicio = strToDate(form.inicio.data)
+                fim = strToDate(form.fim.data)
+                new_ciclo = tables.Ciclo(form.nome.data, inicio, fim)
+                db.session.add(new_ciclo)
+                db.session.commit()
+
+
+                return redirect(url_for("admin"))
+
+        else:
+            if form.errors:
+                flash(form.errors)
+
+        return render_template('home/cicloCad.html', form=form)
+    else:
+        flash("A área que você tentou acessar é restrita.")
+        return redirect(url_for("warning"))
+
+@app.route("/verProf")
+def verProf():
+    if current_user.is_admin:
+        professor = tables.Professor.query.all()
+        session = sessionmaker(bind=engine)()
+
+        return render_template('home/verProf.html',
+                                professor=professor)
+    else:
+        return redirect(url_for('warning'))
+
+@app.route("/verSalas")
+def verSalas():
+    if current_user.is_admin:
+        sala = tables.Sala.query.all()
+        session = sessionmaker(bind=engine)()
+
+        return render_template('home/verSalas.html',
+                                sala=sala)
+    else:
+        return redirect(url_for('warning'))
+
+@app.route("/verAlunos")
+def verAlunos():
+    if current_user.is_admin:
+        aluno = tables.Aluno.query.all()
+        session = sessionmaker(bind=engine)()
+
+        return render_template('home/verAlunos.html',
+                                aluno=aluno)
+    else:
+        return redirect(url_for('warning'))

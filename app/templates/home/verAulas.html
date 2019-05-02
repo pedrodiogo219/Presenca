@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta>
+    {% block head %}
+    <title>Ver Aulas</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block body %}
+    <h1>Escolha um Professor</h1>
+    <span class="thin">**Volte para a área do gestor <a href="admin" class="ftLink">clicando aqui</a>.</span><br>
+    <hr>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-purple">
+                <ul class=flashes>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+    <div class="form-row" style="text-align:center;">
+      {% for prof in professores %}
+      <div class="col-md-6 mb-2">
+        {% if prof.ID_URI == "admin" %}
+        <div class="list-group">
+          <span href="" class="list-group-item list-group-item-action list-group-item-light">{{ prof.nome }} ({{ prof.apelido }})</span>
+        </div>
+        {% else %}
+        <div class="list-group">
+          <a href="{{ url_for('minhasAulas', id_professor=prof.id) }}" class="list-group-item list-group-item-action">{{ prof.nome }} ({{ prof.apelido }})</a>
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% endblock %}
+  </body>
+</html>
